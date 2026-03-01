@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Павел Марков | Elite Mentorship & Identity</title>
     
     <!-- Tailwind CSS -->
@@ -48,55 +48,59 @@
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            cursor: none; /* Hide default cursor on desktop for custom ambient cursor */
+            /* Prevent tap highlight color on mobile */
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        @media (max-width: 768px) {
+            body { cursor: auto; } /* Restore cursor on mobile */
+        }
+
+        /* --- AMBIENT CURSOR --- */
+        .ambient-cursor {
+            position: fixed; top: 0; left: 0;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 60%);
+            border-radius: 50%; pointer-events: none; z-index: -2;
+            transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s;
+            mix-blend-mode: screen; display: none;
         }
 
         /* --- ULTRA LUXURY DYNAMIC BACKGROUND --- */
         .bg-core {
             position: fixed; inset: 0; z-index: -5;
-            /* Lighter, rich bronze/obsidian gradient instead of flat black */
             background: linear-gradient(135deg, #13110f 0%, #0a0908 50%, #161412 100%);
         }
 
-        /* Moving volumetric lights - Increased opacity and spread for a brighter, warmer feel */
         .bg-glow-1 {
             position: fixed; top: -10%; left: -10%; width: 90vw; height: 90vw;
             background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, transparent 65%);
-            filter: blur(90px);
-            animation: drift-1 25s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: -4;
+            filter: blur(90px); animation: drift-1 25s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); z-index: -4;
         }
 
         .bg-glow-2 {
             position: fixed; bottom: -20%; right: -10%; width: 80vw; height: 80vw;
             background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
-            filter: blur(100px);
-            animation: drift-2 30s infinite alternate-reverse cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: -4;
+            filter: blur(100px); animation: drift-2 30s infinite alternate-reverse cubic-bezier(0.4, 0, 0.2, 1); z-index: -4;
         }
         
-        /* New 3rd ambient light to lift the darkness and add depth */
         .bg-glow-3 {
             position: fixed; top: 30%; left: 20%; width: 100vw; height: 100vw;
             background: radial-gradient(circle, rgba(166, 136, 43, 0.1) 0%, transparent 65%);
-            filter: blur(120px);
-            animation: drift-3 35s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: -4;
+            filter: blur(120px); animation: drift-3 35s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); z-index: -4;
         }
 
-        /* Architectural Grid */
         .bg-grid {
             position: fixed; inset: 0; z-index: -3;
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-image: linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
             background-size: 40px 40px;
-            -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 70%);
             mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 70%);
         }
 
-        /* Subtle Noise */
         .noise-overlay {
-            position: fixed; inset: 0; z-index: -2; pointer-events: none; opacity: 0.035;
+            position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.035;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
@@ -106,48 +110,29 @@
 
         /* --- TYPOGRAPHY --- */
         .text-gradient-gold {
-            background: var(--gold-gradient);
-            background-size: 200% auto;
+            background: var(--gold-gradient); background-size: 200% auto;
             -webkit-background-clip: text; background-clip: text; color: transparent;
             text-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
             animation: goldShine 8s linear infinite;
         }
-        
-        @keyframes goldShine {
-            to { background-position: 200% center; }
-        }
+        @keyframes goldShine { to { background-position: 200% center; } }
 
         .signature-made {
-            font-family: 'Great Vibes', cursive;
-            color: var(--gold-bright);
+            font-family: 'Great Vibes', cursive; color: var(--gold-bright);
             text-shadow: 0 2px 15px rgba(212, 175, 55, 0.4), 0 0 30px rgba(212, 175, 55, 0.2);
         }
 
         /* --- LEVITATING AVATAR --- */
-        .avatar-wrapper {
-            animation: levitate 6s infinite ease-in-out;
-        }
+        .avatar-wrapper { animation: levitate 6s infinite ease-in-out; }
+        @keyframes levitate { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-        @keyframes levitate {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
-        /* Gravity Shadow for Avatar */
         .avatar-shadow {
             width: 100px; height: 10px;
             background: radial-gradient(ellipse at center, rgba(0,0,0,0.8) 0%, transparent 70%);
-            margin: 10px auto 0;
-            border-radius: 50%;
-            filter: blur(4px);
-            animation: shadowPulse 6s infinite ease-in-out;
-            opacity: 0.6;
+            margin: 10px auto 0; border-radius: 50%; filter: blur(4px);
+            animation: shadowPulse 6s infinite ease-in-out; opacity: 0.6;
         }
-
-        @keyframes shadowPulse {
-            0%, 100% { transform: scale(1); opacity: 0.6; }
-            50% { transform: scale(0.7); opacity: 0.2; }
-        }
+        @keyframes shadowPulse { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(0.7); opacity: 0.2; } }
 
         .avatar-ring {
             position: relative; padding: 4px; border-radius: 50%;
@@ -155,148 +140,171 @@
             box-shadow: 0 15px 40px rgba(0,0,0,0.8), inset 0 0 25px rgba(212,175,55,0.3);
         }
 
-        .avatar-ring::after {
-            content: ''; position: absolute; inset: -1px; border-radius: 50%;
-            background: conic-gradient(from 0deg, transparent 0%, rgba(212,175,55,0.5) 25%, transparent 50%, rgba(212,175,55,0.5) 75%, transparent 100%);
-            animation: spin 10s linear infinite; z-index: -1;
-        }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-
         /* --- GLOBAL EXPERTISE HEADER --- */
         .expertise-header-box {
             background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.4) 100%);
             border: 1px solid rgba(255,255,255,0.05); border-bottom: none;
             border-radius: 28px 28px 0 0;
             padding: 2.5rem 1.5rem 3.5rem 1.5rem;
-            margin-bottom: -2rem; position: relative;
+            margin-bottom: -1rem; /* Slightly pulled up, dot removed */
+            position: relative;
             box-shadow: inset 0 1px 1px rgba(255,255,255,0.05);
             backdrop-filter: blur(10px);
         }
 
-        /* --- THEMATIC CARDS (True Glassmorphism) --- */
+        /* --- THEMATIC CARDS (Touch & Hover) --- */
         .expertise-card {
             background: rgba(15, 15, 17, 0.6);
             backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.04); border-top: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 24px;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative; overflow: hidden;
             box-shadow: 0 20px 40px -10px rgba(0,0,0,0.8), inset 0 1px 1px rgba(255,255,255,0.05);
             
-            /* Fallback */
+            transform-style: preserve-3d;
+            transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease, border-color 0.4s ease, background 0.4s ease;
+            
             --theme-color: #D4AF37; --theme-glow: rgba(212, 175, 55, 0.2);
         }
 
-        /* Premium Bright Thematic Colors */
         .theme-fitness { --theme-color: #ff2a2a; --theme-glow: rgba(255, 42, 42, 0.25); }
         .theme-nutrition { --theme-color: #00f260; --theme-glow: rgba(0, 242, 96, 0.25); }
         .theme-mental { --theme-color: #00c3ff; --theme-glow: rgba(0, 195, 255, 0.25); }
 
         .expertise-card::before {
             content: ''; position: absolute; top: 0; left: 0; right: 0; height: 100%;
-            background: radial-gradient(circle at 80% 0%, var(--theme-color), transparent 60%);
-            opacity: 0.04; transition: opacity 0.5s ease, transform 0.5s ease;
+            background: radial-gradient(circle at var(--mouse-x, 80%) var(--mouse-y, 0%), var(--theme-color), transparent 60%);
+            opacity: 0.04; transition: opacity 0.5s ease; pointer-events: none;
         }
 
-        .expertise-card:hover {
-            transform: translateY(-4px) scale(1.01);
+        /* Hover & Touch Active states */
+        .expertise-card:hover, .expertise-card.touch-active {
             border-color: rgba(255,255,255,0.1);
             background: rgba(20, 20, 22, 0.85);
             box-shadow: 0 30px 50px -15px rgba(0,0,0,0.9), 0 0 30px var(--theme-glow);
+            z-index: 20;
+        }
+        /* Mobile specific lift without 3D tilt logic fighting it */
+        @media (max-width: 768px) {
+            .expertise-card.touch-active { transform: translateY(-4px) scale(1.01); }
         }
 
-        .expertise-card:hover::before { opacity: 0.12; transform: scale(1.1); }
+        .expertise-card:hover::before, .expertise-card.touch-active::before { opacity: 0.15; }
 
         .card-icon-wrapper {
             background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(0,0,0,0.4));
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            color: var(--gold-base);
+            border: 1px solid rgba(255, 255, 255, 0.08); color: var(--gold-base);
             box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.5s ease;
+            transform: translateZ(30px);
         }
-
-        .expertise-card:hover .card-icon-wrapper {
+        
+        .expertise-card:hover .card-icon-wrapper, .expertise-card.touch-active .card-icon-wrapper {
             border-color: var(--theme-color); color: #fff;
             background: linear-gradient(135deg, var(--theme-glow), rgba(0,0,0,0.6));
             box-shadow: 0 0 20px var(--theme-glow), inset 0 1px 1px rgba(255,255,255,0.2);
             text-shadow: 0 0 10px var(--theme-color);
         }
         
-        .expertise-card:hover .theme-title { color: var(--theme-color); text-shadow: 0 0 15px var(--theme-glow); }
-        .expertise-list li { position: relative; padding-left: 2rem; margin-bottom: 1rem; line-height: 1.6; }
-        .expertise-list li i { position: absolute; left: 0; top: 0.3rem; color: var(--gold-bright); font-size: 0.9rem; transition: all 0.4s ease; }
-        .expertise-card:hover .expertise-list li i { color: var(--theme-color); filter: drop-shadow(0 0 5px var(--theme-color)); transform: scale(1.1); }
+        .theme-title { transform: translateZ(20px); transition: color 0.4s ease, text-shadow 0.4s ease; }
+        
+        .expertise-card:hover .theme-title, .expertise-card.touch-active .theme-title { 
+            color: var(--theme-color); 
+            text-shadow: 0 0 15px var(--theme-glow); 
+        }
 
-        /* --- BUTTONS (Luxury Interactive) --- */
+        .expertise-list li { position: relative; padding-left: 2.2rem; margin-bottom: 1rem; line-height: 1.6; }
+        
+        /* Thematic Icons styling */
+        .expertise-list li i { 
+            position: absolute; left: 0; top: 0.25rem; 
+            color: var(--gold-bright); font-size: 1rem; 
+            transition: all 0.4s ease; 
+            display: flex; justify-content: center; width: 1.5rem;
+        }
+        
+        .expertise-card:hover .expertise-list li i, .expertise-card.touch-active .expertise-list li i { 
+            color: var(--theme-color); 
+            filter: drop-shadow(0 0 5px var(--theme-color)); 
+            transform: scale(1.1); 
+        }
+
+        /* --- BUTTONS --- */
         .elite-btn {
             background: rgba(18, 18, 20, 0.6);
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.05); border-top: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 20px;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             display: flex; align-items: center; padding: 1.1rem 1.25rem;
             box-shadow: 0 10px 20px -5px rgba(0,0,0,0.5);
+            
+            transform-style: preserve-3d;
+            transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.4s ease, box-shadow 0.4s ease;
         }
 
-        .elite-btn:hover {
-            transform: translateY(-3px);
+        .elite-btn:hover, .elite-btn.touch-active {
             background: rgba(25, 25, 28, 0.9);
-            box-shadow: 0 15px 30px -5px rgba(0,0,0,0.8);
+            box-shadow: 0 20px 30px -5px rgba(0,0,0,0.8);
+            z-index: 10;
         }
+        @media (max-width: 768px) {
+            .elite-btn.touch-active { transform: translateY(-3px) scale(1.01); }
+        }
+
+        /* The Crown Jewel Light Sweep */
+        .btn-kasta { position: relative; overflow: hidden; border-color: rgba(212, 175, 55, 0.3); }
+        .btn-kasta::after {
+            content: ''; position: absolute; top: 0; left: -150%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent);
+            transform: skewX(-20deg); animation: sweepLight 4s infinite cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes sweepLight { 0% { left: -150%; } 20% { left: 200%; } 100% { left: 200%; } }
 
         .btn-icon-box {
             width: 48px; height: 48px; border-radius: 14px;
             display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
             background: linear-gradient(135deg, rgba(255,255,255,0.05), transparent);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: inset 0 1px 1px rgba(255,255,255,0.05);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); color: #a1a1aa;
+            border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: inset 0 1px 1px rgba(255,255,255,0.05);
+            transition: all 0.4s ease; color: #a1a1aa; transform: translateZ(20px);
         }
 
-        .elite-btn .arrow-icon { transition: all 0.4s ease; opacity: 0.5; }
+        .btn-text-content { transform: translateZ(15px); }
+        .elite-btn .arrow-icon { transition: all 0.4s ease; opacity: 0.5; transform: translateZ(20px); }
 
-        /* Network Brand Colors */
-        .btn-kasta:hover { border-color: rgba(212, 175, 55, 0.5); }
-        .btn-kasta:hover .btn-icon-box { background: rgba(212, 175, 55, 0.15); border-color: #D4AF37; color: #D4AF37; box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); }
-        .btn-kasta:hover h3 { color: #D4AF37; text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
-        .btn-kasta:hover .arrow-icon { color: #D4AF37; transform: translateX(6px); opacity: 1; }
+        /* Button Network Hover/Touch Classes */
+        .btn-kasta:hover .btn-icon-box, .btn-kasta.touch-active .btn-icon-box { background: rgba(212, 175, 55, 0.15); border-color: #D4AF37; color: #D4AF37; box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); }
+        .btn-kasta:hover h3, .btn-kasta.touch-active h3 { color: #D4AF37; text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
+        .btn-kasta:hover .arrow-icon, .btn-kasta.touch-active .arrow-icon { color: #D4AF37; transform: translateZ(20px) translateX(6px); opacity: 1; }
 
-        .btn-telegram:hover { border-color: rgba(42, 171, 238, 0.5); }
-        .btn-telegram:hover .btn-icon-box { background: rgba(42, 171, 238, 0.15); border-color: #2AABEE; color: #2AABEE; box-shadow: 0 0 20px rgba(42, 171, 238, 0.3); }
-        .btn-telegram:hover h3 { color: #2AABEE; text-shadow: 0 0 10px rgba(42, 171, 238, 0.3); }
-        .btn-telegram:hover .arrow-icon { color: #2AABEE; transform: translateX(6px); opacity: 1; }
+        .btn-telegram:hover .btn-icon-box, .btn-telegram.touch-active .btn-icon-box { background: rgba(42, 171, 238, 0.15); border-color: #2AABEE; color: #2AABEE; box-shadow: 0 0 20px rgba(42, 171, 238, 0.3); }
+        .btn-telegram:hover h3, .btn-telegram.touch-active h3 { color: #2AABEE; }
+        .btn-telegram:hover .arrow-icon, .btn-telegram.touch-active .arrow-icon { color: #2AABEE; transform: translateZ(20px) translateX(6px); opacity: 1; }
 
-        .btn-instagram:hover { border-color: rgba(225, 48, 108, 0.5); }
-        .btn-instagram:hover .btn-icon-box { background: rgba(225, 48, 108, 0.15); border-color: #E1306C; color: #E1306C; box-shadow: 0 0 20px rgba(225, 48, 108, 0.3); }
-        .btn-instagram:hover h3 { color: #E1306C; text-shadow: 0 0 10px rgba(225, 48, 108, 0.3); }
-        .btn-instagram:hover .arrow-icon { color: #E1306C; transform: translateX(6px); opacity: 1; }
+        .btn-instagram:hover .btn-icon-box, .btn-instagram.touch-active .btn-icon-box { background: rgba(225, 48, 108, 0.15); border-color: #E1306C; color: #E1306C; box-shadow: 0 0 20px rgba(225, 48, 108, 0.3); }
+        .btn-instagram:hover h3, .btn-instagram.touch-active h3 { color: #E1306C; }
+        .btn-instagram:hover .arrow-icon, .btn-instagram.touch-active .arrow-icon { color: #E1306C; transform: translateZ(20px) translateX(6px); opacity: 1; }
 
-        .btn-youtube:hover { border-color: rgba(255, 0, 0, 0.5); }
-        .btn-youtube:hover .btn-icon-box { background: rgba(255, 0, 0, 0.15); border-color: #FF0000; color: #FF0000; box-shadow: 0 0 20px rgba(255, 0, 0, 0.3); }
-        .btn-youtube:hover h3 { color: #FF0000; text-shadow: 0 0 10px rgba(255, 0, 0, 0.3); }
-        .btn-youtube:hover .arrow-icon { color: #FF0000; transform: translateX(6px); opacity: 1; }
+        .btn-youtube:hover .btn-icon-box, .btn-youtube.touch-active .btn-icon-box { background: rgba(255, 0, 0, 0.15); border-color: #FF0000; color: #FF0000; box-shadow: 0 0 20px rgba(255, 0, 0, 0.3); }
+        .btn-youtube:hover h3, .btn-youtube.touch-active h3 { color: #FF0000; }
+        .btn-youtube:hover .arrow-icon, .btn-youtube.touch-active .arrow-icon { color: #FF0000; transform: translateZ(20px) translateX(6px); opacity: 1; }
 
-        .btn-tiktok:hover { border-color: rgba(0, 242, 254, 0.5); }
-        .btn-tiktok:hover .btn-icon-box { background: rgba(0, 242, 254, 0.15); border-color: #00f2fe; color: #00f2fe; box-shadow: 0 0 20px rgba(0, 242, 254, 0.3); text-shadow: 2px 2px 0px #ff0050, -2px -2px 0px #00f2fe; }
-        .btn-tiktok:hover h3 { color: #ffffff; text-shadow: 0 0 10px rgba(0, 242, 254, 0.5); }
-        .btn-tiktok:hover .arrow-icon { color: #00f2fe; transform: translateX(6px); opacity: 1; }
+        .btn-tiktok:hover .btn-icon-box, .btn-tiktok.touch-active .btn-icon-box { background: rgba(0, 242, 254, 0.15); border-color: #00f2fe; color: #00f2fe; box-shadow: 0 0 20px rgba(0, 242, 254, 0.3); text-shadow: 2px 2px 0px #ff0050, -2px -2px 0px #00f2fe; }
+        .btn-tiktok:hover h3, .btn-tiktok.touch-active h3 { color: #ffffff; text-shadow: 0 0 10px rgba(0, 242, 254, 0.5); }
+        .btn-tiktok:hover .arrow-icon, .btn-tiktok.touch-active .arrow-icon { color: #00f2fe; transform: translateZ(20px) translateX(6px); opacity: 1; }
 
-        .btn-x:hover { border-color: rgba(255, 255, 255, 0.5); }
-        .btn-x:hover .btn-icon-box { background: rgba(255, 255, 255, 0.15); border-color: #ffffff; color: #ffffff; box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); }
-        .btn-x:hover h3 { color: #ffffff; text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
-        .btn-x:hover .arrow-icon { color: #ffffff; transform: translateX(6px); opacity: 1; }
+        .btn-x:hover .btn-icon-box, .btn-x.touch-active .btn-icon-box { background: rgba(255, 255, 255, 0.15); border-color: #ffffff; color: #ffffff; box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); }
+        .btn-x:hover h3, .btn-x.touch-active h3 { color: #ffffff; text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
+        .btn-x:hover .arrow-icon, .btn-x.touch-active .arrow-icon { color: #ffffff; transform: translateZ(20px) translateX(6px); opacity: 1; }
 
-        .btn-linkedin:hover { border-color: rgba(10, 102, 194, 0.5); }
-        .btn-linkedin:hover .btn-icon-box { background: rgba(10, 102, 194, 0.15); border-color: #0A66C2; color: #0A66C2; box-shadow: 0 0 20px rgba(10, 102, 194, 0.3); }
-        .btn-linkedin:hover h3 { color: #0A66C2; text-shadow: 0 0 10px rgba(10, 102, 194, 0.3); }
-        .btn-linkedin:hover .arrow-icon { color: #0A66C2; transform: translateX(6px); opacity: 1; }
+        .btn-linkedin:hover .btn-icon-box, .btn-linkedin.touch-active .btn-icon-box { background: rgba(10, 102, 194, 0.15); border-color: #0A66C2; color: #0A66C2; box-shadow: 0 0 20px rgba(10, 102, 194, 0.3); }
+        .btn-linkedin:hover h3, .btn-linkedin.touch-active h3 { color: #0A66C2; text-shadow: 0 0 10px rgba(10, 102, 194, 0.3); }
+        .btn-linkedin:hover .arrow-icon, .btn-linkedin.touch-active .arrow-icon { color: #0A66C2; transform: translateZ(20px) translateX(6px); opacity: 1; }
 
-        .btn-whatsapp:hover { border-color: rgba(37, 211, 102, 0.5); }
-        .btn-whatsapp:hover .btn-icon-box { background: rgba(37, 211, 102, 0.15); border-color: #25D366; color: #25D366; box-shadow: 0 0 20px rgba(37, 211, 102, 0.3); }
-        .btn-whatsapp:hover h3 { color: #25D366; text-shadow: 0 0 10px rgba(37, 211, 102, 0.3); }
-        .btn-whatsapp:hover .arrow-icon { color: #25D366; transform: translateX(6px); opacity: 1; }
+        .btn-whatsapp:hover .btn-icon-box, .btn-whatsapp.touch-active .btn-icon-box { background: rgba(37, 211, 102, 0.15); border-color: #25D366; color: #25D366; box-shadow: 0 0 20px rgba(37, 211, 102, 0.3); }
+        .btn-whatsapp:hover h3, .btn-whatsapp.touch-active h3 { color: #25D366; text-shadow: 0 0 10px rgba(37, 211, 102, 0.3); }
+        .btn-whatsapp:hover .arrow-icon, .btn-whatsapp.touch-active .arrow-icon { color: #25D366; transform: translateZ(20px) translateX(6px); opacity: 1; }
 
         /* Small Grid */
         .grid-icon {
@@ -304,32 +312,32 @@
             border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             box-shadow: inset 0 1px 1px rgba(255,255,255,0.05);
         }
-        .grid-item:hover .grid-icon { transform: translateY(-4px) scale(1.05); }
-        .grid-vk:hover .grid-icon { background: rgba(0, 119, 255, 0.15); border-color: #0077FF; color: #0077FF; box-shadow: 0 8px 20px rgba(0, 119, 255, 0.25); }
-        .grid-facebook:hover .grid-icon { background: rgba(24, 119, 242, 0.15); border-color: #1877F2; color: #1877F2; box-shadow: 0 8px 20px rgba(24, 119, 242, 0.25); }
-        .grid-twitch:hover .grid-icon { background: rgba(145, 70, 255, 0.15); border-color: #9146FF; color: #9146FF; box-shadow: 0 8px 20px rgba(145, 70, 255, 0.25); }
-        .grid-discord:hover .grid-icon { background: rgba(88, 101, 242, 0.15); border-color: #5865F2; color: #5865F2; box-shadow: 0 8px 20px rgba(88, 101, 242, 0.25); }
-        .grid-email:hover .grid-icon { background: rgba(255, 255, 255, 0.15); border-color: #ffffff; color: #ffffff; box-shadow: 0 8px 20px rgba(255, 255, 255, 0.25); }
+        .grid-item:hover .grid-icon, .grid-item.touch-active .grid-icon { transform: translateY(-4px) scale(1.05); }
+        .grid-vk:hover .grid-icon, .grid-vk.touch-active .grid-icon { background: rgba(0, 119, 255, 0.15); border-color: #0077FF; color: #0077FF; box-shadow: 0 8px 20px rgba(0, 119, 255, 0.25); }
+        .grid-facebook:hover .grid-icon, .grid-facebook.touch-active .grid-icon { background: rgba(24, 119, 242, 0.15); border-color: #1877F2; color: #1877F2; box-shadow: 0 8px 20px rgba(24, 119, 242, 0.25); }
+        .grid-twitch:hover .grid-icon, .grid-twitch.touch-active .grid-icon { background: rgba(145, 70, 255, 0.15); border-color: #9146FF; color: #9146FF; box-shadow: 0 8px 20px rgba(145, 70, 255, 0.25); }
+        .grid-discord:hover .grid-icon, .grid-discord.touch-active .grid-icon { background: rgba(88, 101, 242, 0.15); border-color: #5865F2; color: #5865F2; box-shadow: 0 8px 20px rgba(88, 101, 242, 0.25); }
+        .grid-email:hover .grid-icon, .grid-email.touch-active .grid-icon { background: rgba(255, 255, 255, 0.15); border-color: #ffffff; color: #ffffff; box-shadow: 0 8px 20px rgba(255, 255, 255, 0.25); }
 
-        /* Initial load animations (Cinematic Blur Reveal) */
+        /* --- SCROLL REVEAL ANIMATIONS (JS triggered) --- */
+        .reveal-item {
+            opacity: 0; transform: translateY(40px) scale(0.95); filter: blur(8px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform, opacity, filter;
+        }
+        .reveal-item.is-visible { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+
+        /* Initial load animations */
         .fade-in { 
-            opacity: 0; 
-            transform: translateY(25px) scale(0.98); 
-            filter: blur(12px);
+            opacity: 0; transform: translateY(25px) scale(0.98); filter: blur(12px);
             animation: fadeInBlur 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
         }
-        @keyframes fadeInBlur { 
-            to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } 
-        }
+        @keyframes fadeInBlur { to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } }
         
         .d-1 { animation-delay: 0.1s; } .d-2 { animation-delay: 0.2s; } .d-3 { animation-delay: 0.3s; }
         .d-4 { animation-delay: 0.4s; } .d-5 { animation-delay: 0.5s; } .d-6 { animation-delay: 0.6s; }
 
-        /* Diamond Heartbeat */
-        .pulse-diamond { 
-            display: inline-block; 
-            animation: heartbeat 4s infinite cubic-bezier(0.4, 0, 0.2, 1); 
-        }
+        /* Diamond Pulse */
+        .pulse-diamond { display: inline-block; animation: heartbeat 4s infinite cubic-bezier(0.4, 0, 0.2, 1); }
         @keyframes heartbeat {
             0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(212,175,55,0.4)); opacity: 0.8; }
             50% { transform: scale(1.15); filter: drop-shadow(0 0 15px rgba(212,175,55,1)); opacity: 1; }
@@ -342,6 +350,9 @@
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center py-12 px-4 sm:px-6 lg:px-8 selection:bg-gold-base selection:text-black relative">
+
+    <!-- Ambient Cursor Orb -->
+    <div class="ambient-cursor" id="ambient-cursor"></div>
 
     <!-- ULTRA LUXURY BACKGROUND LAYER -->
     <div class="bg-core"></div>
@@ -356,7 +367,6 @@
         <!-- HEADER -->
         <header class="flex flex-col items-center text-center mb-12 w-full mt-2">
             
-            <!-- Levitating Premium Avatar with Gravity Shadow -->
             <div class="fade-in d-1 mb-8">
                 <div class="avatar-wrapper">
                     <div class="avatar-ring w-40 h-40 sm:w-48 sm:h-48 flex items-center justify-center">
@@ -389,10 +399,9 @@
         </header>
 
         <!-- GLOBAL EXPERTISE SECTION -->
-        <section class="w-full flex flex-col gap-5 mb-16 fade-in d-4">
+        <section class="w-full flex flex-col gap-5 mb-16">
             
-            <!-- Masterpiece Header Box -->
-            <div class="expertise-header-box text-center">
+            <div class="reveal-item expertise-header-box text-center">
                 <div class="inline-flex items-center justify-center gap-2 mb-3">
                     <span class="h-px w-4 bg-gold-base/50"></span>
                     <span class="text-gold-base text-[10px] sm:text-xs tracking-[0.4em] uppercase font-bold text-shadow-sm">Глобальная Экспертиза</span>
@@ -400,18 +409,14 @@
                 </div>
                 <h2 class="text-2xl sm:text-[28px] font-serif font-bold text-white mb-4 tracking-wide text-shadow-lg">Архитектура Трансформации</h2>
                 
-                <!-- NEW PUNCHY, CONVINCING COPY -->
                 <p class="text-[14px] sm:text-[15px] text-zinc-300 font-light leading-relaxed max-w-md mx-auto relative z-10">
                     Сферы, где мой подход базируется на <strong class="text-white font-medium">профильном образовании</strong> и <strong class="text-white font-medium">колоссальном жизненном опыте</strong>. Я гарантирую железобетонные трансформации, подтвержденные реальными кейсами и выдающимися результатами моих <strong class="text-gold-light font-medium border-b border-gold-base/30 pb-0.5">подопечных</strong>.
                 </p>
-                
-                <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-5 h-5 rounded-full bg-[#0a0a0c] border border-white/10 flex items-center justify-center shadow-[0_0_15px_rgba(212,175,55,0.2)]">
-                    <div class="w-2 h-2 rounded-full bg-gold-base shadow-[0_0_10px_rgba(212,175,55,1)]"></div>
-                </div>
+                <!-- Раздражающая точка удалена! Стык абсолютно чистый. -->
             </div>
             
             <!-- FITNESS (Ruby) -->
-            <div class="expertise-card theme-fitness p-7 sm:p-8 relative z-10">
+            <div class="reveal-item expertise-card touchable tilt-element theme-fitness p-7 sm:p-8 relative z-10">
                 <div class="flex items-center justify-between mb-6 pb-5 border-b border-white/5">
                     <div>
                         <p class="text-[10px] uppercase tracking-[0.25em] text-zinc-500 mb-1.5 font-medium">Тело & Здоровье</p>
@@ -422,14 +427,15 @@
                     </div>
                 </div>
                 <ul class="expertise-list text-[14px] sm:text-[15px] text-zinc-300">
-                    <li><i class="fa-solid fa-check"></i> <strong class="text-white font-medium">Эталонная форма.</strong> Набор сухой мышечной массы и экстремальная «сушка» без откатов.</li>
-                    <li><i class="fa-solid fa-check"></i> <strong class="text-white font-medium">Практический опыт.</strong> КМС по бодибилдингу и кикбоксингу. Призер международных турниров.</li>
-                    <li><i class="fa-solid fa-check"></i> <strong class="text-white font-medium">Научная база.</strong> Дипломированный специалист («Профессионалы фитнеса», 2019) — результат без вреда для здоровья.</li>
+                    <!-- Замена галочек на смысловые стикеры/иконки -->
+                    <li><i class="fa-solid fa-bolt"></i> <strong class="text-white font-medium">Эталонная форма.</strong> Набор сухой мышечной массы и экстремальная «сушка» без откатов.</li>
+                    <li><i class="fa-solid fa-medal"></i> <strong class="text-white font-medium">Практический опыт.</strong> КМС по бодибилдингу и кикбоксингу. Призер международных турниров.</li>
+                    <li><i class="fa-solid fa-microscope"></i> <strong class="text-white font-medium">Научная база.</strong> Дипломированный специалист («Профессионалы фитнеса», 2019) — результат без вреда для здоровья.</li>
                 </ul>
             </div>
 
             <!-- NUTRITION (Emerald) -->
-            <div class="expertise-card theme-nutrition p-7 sm:p-8 relative z-10">
+            <div class="reveal-item expertise-card touchable tilt-element theme-nutrition p-7 sm:p-8 relative z-10">
                 <div class="flex items-center justify-between mb-6 pb-5 border-b border-white/5">
                     <div>
                         <p class="text-[10px] uppercase tracking-[0.25em] text-zinc-500 mb-1.5 font-medium">Топливо & Энергия</p>
@@ -440,14 +446,14 @@
                     </div>
                 </div>
                 <ul class="expertise-list text-[14px] sm:text-[15px] text-zinc-300">
-                    <li><i class="fa-solid fa-check"></i> <strong class="text-white font-medium">Еда как ресурс.</strong> Вывожу энергию на максимум, настраиваю идеальное пищеварение.</li>
-                    <li><i class="fa-solid fa-check"></i> <strong class="text-white font-medium">Интегративный метод.</strong> Эксперт-нутрициолог (МИИН, 2022). Работаю с первопричинами, а не маскирую симптомы.</li>
-                    <li><i class="fa-solid fa-check"></i> <strong class="text-white font-medium">Композиция тела.</strong> Персональный расчет стратегии под вашу генетику и сумасшедший график.</li>
+                    <li><i class="fa-solid fa-fire-flame-curved"></i> <strong class="text-white font-medium">Еда как ресурс.</strong> Вывожу энергию на максимум, настраиваю идеальное пищеварение.</li>
+                    <li><i class="fa-solid fa-shield-halved"></i> <strong class="text-white font-medium">Интегративный метод.</strong> Эксперт-нутрициолог (МИИН, 2022). Работаю с первопричинами, а не маскирую симптомы.</li>
+                    <li><i class="fa-solid fa-chart-pie"></i> <strong class="text-white font-medium">Композиция тела.</strong> Персональный расчет стратегии под вашу генетику и сумасшедший график.</li>
                 </ul>
             </div>
 
             <!-- MENTORSHIP (Sapphire) -->
-            <div class="expertise-card theme-mental p-7 sm:p-8 relative z-10">
+            <div class="reveal-item expertise-card touchable tilt-element theme-mental p-7 sm:p-8 relative z-10">
                 <div class="flex items-center justify-between mb-6 pb-5 border-b border-white/5">
                     <div>
                         <p class="text-[10px] uppercase tracking-[0.25em] text-zinc-500 mb-1.5 font-medium">Разум & Масштаб</p>
@@ -458,9 +464,9 @@
                     </div>
                 </div>
                 <ul class="expertise-list text-[14px] sm:text-[15px] text-zinc-300">
-                    <li><i class="fa-solid fa-check"></i> <strong class="text-white font-medium">Разрушение барьеров.</strong> Поиск выходов из карьерных кризисов и системных тупиков.</li>
-                    <li><i class="fa-solid fa-check"></i> <strong class="text-white font-medium">Психология победителя.</strong> Личный успешный опыт уничтожения деструктивных привычек.</li>
-                    <li><i class="fa-solid fa-check"></i> <strong class="text-white font-medium">Масштаб видения.</strong> Международный опыт. Синергия мощного тела и абсолютно ясного разума.</li>
+                    <li><i class="fa-solid fa-hammer"></i> <strong class="text-white font-medium">Разрушение барьеров.</strong> Поиск выходов из карьерных кризисов и системных тупиков.</li>
+                    <li><i class="fa-solid fa-link-slash"></i> <strong class="text-white font-medium">Психология победителя.</strong> Личный успешный опыт уничтожения деструктивных привычек.</li>
+                    <li><i class="fa-solid fa-globe"></i> <strong class="text-white font-medium">Масштаб видения.</strong> Международный опыт. Синергия мощного тела и абсолютно ясного разума.</li>
                 </ul>
             </div>
 
@@ -468,14 +474,14 @@
 
         <!-- TOP TIER SOCIAL LINKS -->
         <section class="w-full flex flex-col gap-4 mb-16">
-            <h2 class="fade-in d-5 text-[11px] font-medium uppercase tracking-[0.25em] text-zinc-500 text-center mb-6 flex items-center justify-center gap-4">
+            <h2 class="reveal-item text-[11px] font-medium uppercase tracking-[0.25em] text-zinc-500 text-center mb-6 flex items-center justify-center gap-4">
                 <span class="h-px w-10 bg-zinc-800"></span>
                 Топовые Ресурсы
                 <span class="h-px w-10 bg-zinc-800"></span>
             </h2>
             
-            <a href="https://castefeudal.github.io/markovmade/" target="_blank" class="fade-in d-5 elite-btn btn-kasta group" style="animation-delay: 0.5s;">
-                <div class="flex items-center gap-5 w-full">
+            <a href="https://castefeudal.github.io/markovmade/" target="_blank" class="reveal-item elite-btn touchable tilt-element btn-kasta group">
+                <div class="flex items-center gap-5 w-full btn-text-content">
                     <div class="btn-icon-box text-xl">
                         <i class="fa-solid fa-chess-knight"></i>
                     </div>
@@ -487,8 +493,8 @@
                 </div>
             </a>
 
-            <a href="#" class="fade-in d-5 elite-btn btn-telegram group" style="animation-delay: 0.55s;">
-                <div class="flex items-center gap-5 w-full">
+            <a href="#" class="reveal-item elite-btn touchable tilt-element btn-telegram group">
+                <div class="flex items-center gap-5 w-full btn-text-content">
                     <div class="btn-icon-box text-xl">
                         <i class="fa-brands fa-telegram"></i>
                     </div>
@@ -500,8 +506,8 @@
                 </div>
             </a>
 
-            <a href="#" class="fade-in d-5 elite-btn btn-instagram group" style="animation-delay: 0.6s;">
-                <div class="flex items-center gap-5 w-full">
+            <a href="#" class="reveal-item elite-btn touchable tilt-element btn-instagram group">
+                <div class="flex items-center gap-5 w-full btn-text-content">
                     <div class="btn-icon-box text-xl">
                         <i class="fa-brands fa-instagram"></i>
                     </div>
@@ -513,8 +519,8 @@
                 </div>
             </a>
 
-            <a href="#" class="fade-in d-5 elite-btn btn-youtube group" style="animation-delay: 0.65s;">
-                <div class="flex items-center gap-5 w-full">
+            <a href="#" class="reveal-item elite-btn touchable tilt-element btn-youtube group">
+                <div class="flex items-center gap-5 w-full btn-text-content">
                     <div class="btn-icon-box text-xl">
                         <i class="fa-brands fa-youtube"></i>
                     </div>
@@ -526,8 +532,8 @@
                 </div>
             </a>
 
-            <a href="#" class="fade-in d-5 elite-btn btn-tiktok group" style="animation-delay: 0.7s;">
-                <div class="flex items-center gap-5 w-full">
+            <a href="#" class="reveal-item elite-btn touchable tilt-element btn-tiktok group">
+                <div class="flex items-center gap-5 w-full btn-text-content">
                     <div class="btn-icon-box text-xl">
                         <i class="fa-brands fa-tiktok"></i>
                     </div>
@@ -539,8 +545,8 @@
                 </div>
             </a>
 
-            <a href="#" class="fade-in d-5 elite-btn btn-x group" style="animation-delay: 0.75s;">
-                <div class="flex items-center gap-5 w-full">
+            <a href="#" class="reveal-item elite-btn touchable tilt-element btn-x group">
+                <div class="flex items-center gap-5 w-full btn-text-content">
                     <div class="btn-icon-box text-xl">
                         <i class="fa-brands fa-x-twitter"></i>
                     </div>
@@ -552,8 +558,8 @@
                 </div>
             </a>
 
-            <a href="#" class="fade-in d-5 elite-btn btn-linkedin group" style="animation-delay: 0.8s;">
-                <div class="flex items-center gap-5 w-full">
+            <a href="#" class="reveal-item elite-btn touchable tilt-element btn-linkedin group">
+                <div class="flex items-center gap-5 w-full btn-text-content">
                     <div class="btn-icon-box text-xl">
                         <i class="fa-brands fa-linkedin-in"></i>
                     </div>
@@ -566,8 +572,8 @@
             </a>
 
             <!-- Highlighted Contact Button -->
-            <a href="#" class="fade-in d-5 elite-btn btn-whatsapp group border-gold-base/40 bg-gold-base/[0.05] mt-3" style="animation-delay: 0.85s;">
-                <div class="flex items-center gap-5 w-full">
+            <a href="#" class="reveal-item elite-btn touchable tilt-element btn-whatsapp group border-gold-base/40 bg-gold-base/[0.05] mt-3">
+                <div class="flex items-center gap-5 w-full btn-text-content">
                     <div class="btn-icon-box !text-gold-base !border-gold-base/30 !bg-gold-base/10 text-xl shadow-[0_0_15px_rgba(212,175,55,0.2)]">
                         <i class="fa-brands fa-whatsapp"></i>
                     </div>
@@ -582,7 +588,7 @@
         </section>
 
         <!-- Niche Socials Grid -->
-        <section class="w-full fade-in d-6 mb-12">
+        <section class="w-full reveal-item mb-12">
             <h2 class="text-[11px] font-medium uppercase tracking-[0.25em] text-zinc-600 text-center mb-6 flex items-center justify-center gap-4">
                 <span class="h-px w-6 bg-zinc-800"></span>
                 Дополнительно
@@ -590,27 +596,27 @@
             </h2>
             
             <div class="flex justify-center gap-4 sm:gap-6 flex-wrap">
-                <a href="#" class="grid-item grid-vk flex flex-col items-center group" title="VKontakte">
+                <a href="#" class="grid-item grid-vk touchable flex flex-col items-center group" title="VKontakte">
                     <div class="grid-icon w-14 h-14 rounded-xl flex items-center justify-center text-zinc-400 text-xl">
                         <i class="fa-brands fa-vk"></i>
                     </div>
                 </a>
-                <a href="#" class="grid-item grid-facebook flex flex-col items-center group" title="Facebook">
+                <a href="#" class="grid-item grid-facebook touchable flex flex-col items-center group" title="Facebook">
                     <div class="grid-icon w-14 h-14 rounded-xl flex items-center justify-center text-zinc-400 text-xl">
                         <i class="fa-brands fa-facebook-f"></i>
                     </div>
                 </a>
-                <a href="#" class="grid-item grid-twitch flex flex-col items-center group" title="Twitch">
+                <a href="#" class="grid-item grid-twitch touchable flex flex-col items-center group" title="Twitch">
                     <div class="grid-icon w-14 h-14 rounded-xl flex items-center justify-center text-zinc-400 text-xl">
                         <i class="fa-brands fa-twitch"></i>
                     </div>
                 </a>
-                <a href="#" class="grid-item grid-discord flex flex-col items-center group" title="Discord">
+                <a href="#" class="grid-item grid-discord touchable flex flex-col items-center group" title="Discord">
                     <div class="grid-icon w-14 h-14 rounded-xl flex items-center justify-center text-zinc-400 text-xl">
                         <i class="fa-brands fa-discord"></i>
                     </div>
                 </a>
-                <a href="#" class="grid-item grid-email flex flex-col items-center group" title="Email">
+                <a href="#" class="grid-item grid-email touchable flex flex-col items-center group" title="Email">
                     <div class="grid-icon w-14 h-14 rounded-xl flex items-center justify-center text-zinc-400 text-xl">
                         <i class="fa-solid fa-envelope"></i>
                     </div>
@@ -619,7 +625,7 @@
         </section>
 
         <!-- Footer -->
-        <footer class="mt-4 mb-10 text-center w-full fade-in" style="animation-delay: 1s;">
+        <footer class="mt-4 mb-10 text-center w-full reveal-item">
             <div class="w-full flex items-center justify-center mb-6 opacity-60">
                 <div class="h-px w-20 bg-gradient-to-r from-transparent to-gold-base/50"></div>
                 <div class="mx-5 text-[12px] text-gold-base pulse-diamond"><i class="fa-solid fa-gem"></i></div>
@@ -634,5 +640,85 @@
 
     </main>
 
+    <!-- JAVASCRIPT ENGINE FOR 11/10 INTERACTIVITY & MOBILE SUPPORT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. SCROLL REVEAL OBSERVER
+            const revealElements = document.querySelectorAll('.reveal-item:not(.is-visible)');
+            
+            const revealOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px" 
+            };
+
+            const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                });
+            }, revealOptions);
+
+            revealElements.forEach(el => revealOnScroll.observe(el));
+
+            // 2. MOBILE TOUCH HIGHLIGHTS & DESKTOP 3D TILT
+            const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+            
+            // Touch interactions for mobile (to simulate hover glow)
+            const touchables = document.querySelectorAll('.touchable');
+            touchables.forEach(el => {
+                el.addEventListener('touchstart', () => {
+                    el.classList.add('touch-active');
+                }, {passive: true});
+                
+                el.addEventListener('touchend', () => {
+                    setTimeout(() => el.classList.remove('touch-active'), 150); // slight delay for visual satisfaction
+                });
+                
+                el.addEventListener('touchcancel', () => {
+                    el.classList.remove('touch-active');
+                });
+            });
+
+            // 3D Tilt and custom cursor (Desktop Only)
+            if (!isTouchDevice) {
+                const tiltElements = document.querySelectorAll('.tilt-element');
+                
+                tiltElements.forEach(el => {
+                    el.addEventListener('mousemove', (e) => {
+                        const rect = el.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+                        
+                        const tiltX = ((y - centerY) / centerY) * -6; 
+                        const tiltY = ((x - centerX) / centerX) * 6;
+                        
+                        el.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
+                        el.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
+                        el.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
+                    });
+                    
+                    el.addEventListener('mouseleave', () => {
+                        el.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                    });
+                });
+
+                // Ambient Cursor
+                const cursor = document.getElementById('ambient-cursor');
+                cursor.style.display = 'block';
+
+                document.addEventListener('mousemove', (e) => {
+                    cursor.style.left = e.clientX + 'px';
+                    cursor.style.top = e.clientY + 'px';
+                });
+
+                document.addEventListener('mousedown', () => cursor.style.transform = 'translate(-50%, -50%) scale(0.8)');
+                document.addEventListener('mouseup', () => cursor.style.transform = 'translate(-50%, -50%) scale(1)');
+            }
+        });
+    </script>
 </body>
 </html>
