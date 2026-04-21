@@ -22,9 +22,10 @@
     <!-- Smooth Scroll Lenis -->
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
 
-    <!-- Google Fonts: Inter & Cormorant -->
+    <!-- Google Fonts Optimized Loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Great+Vibes&display=swap">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
     
     <!-- FontAwesome -->
@@ -75,6 +76,15 @@
             body { cursor: auto; }
         }
 
+        /* ACCESSIBILITY FOCUS */
+        *:focus-visible {
+            outline: 2px solid var(--gold-bright);
+            outline-offset: 4px;
+            border-radius: 4px;
+        }
+        .elite-btn:focus-visible { border-radius: 20px; }
+        .grid-item:focus-visible { border-radius: 12px; }
+
         /* --- PRELOADER --- */
         #preloader {
             position: fixed; inset: 0; z-index: 9999;
@@ -104,8 +114,8 @@
             width: 400px; height: 400px;
             background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, transparent 60%);
             border-radius: 50%; pointer-events: none; z-index: -2;
-            transform: translate(-50%, -50%); transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
-            mix-blend-mode: screen; display: none; will-change: transform, width, height;
+            transform: translate(-50%, -50%); transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease;
+            mix-blend-mode: screen; display: none; will-change: transform, width, height, background;
         }
 
         /* --- ULTRA LUXURY DYNAMIC BACKGROUND --- */
@@ -176,6 +186,12 @@
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             box-shadow: 0 15px 40px rgba(0,0,0,0.8), inset 0 0 25px rgba(212,175,55,0.4);
             border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        /* Fallback for poor performance devices regarding backdrop-filter */
+        @supports not (backdrop-filter: blur(12px)) {
+            .elite-btn, .expertise-card, .expertise-header-box { background: rgba(20, 20, 23, 0.98) !important; }
+            .avatar-ring { background: rgba(30, 25, 10, 0.9); }
         }
 
         /* --- GLOBAL EXPERTISE HEADER --- */
@@ -324,16 +340,18 @@
         .btn-kasta:hover h3, .btn-kasta.scroll-active h3 { color: #D4AF37; text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
         .btn-kasta:hover .arrow-icon, .btn-kasta.scroll-active .arrow-icon { color: #D4AF37; transform: translateZ(20px) translateX(6px); opacity: 1; }
 
-        .btn-bot:hover .btn-icon-box, .btn-bot.scroll-active .btn-icon-box { background: rgba(166, 136, 43, 0.15); border-color: #A6882B; color: #A6882B; box-shadow: 0 0 20px rgba(166, 136, 43, 0.3); }
-        .btn-bot:hover h3, .btn-bot.scroll-active h3 { color: #A6882B; }
-        .btn-bot:hover .arrow-icon, .btn-bot.scroll-active .arrow-icon { color: #A6882B; transform: translateZ(20px) translateX(6px); opacity: 1; }
+        /* Cyber Bot Theme */
+        .btn-bot:hover .btn-icon-box, .btn-bot.scroll-active .btn-icon-box { background: rgba(0, 242, 254, 0.15); border-color: #00f2fe; color: #00f2fe; box-shadow: 0 0 20px rgba(0, 242, 254, 0.3); }
+        .btn-bot:hover h3, .btn-bot.scroll-active h3 { color: #00f2fe; text-shadow: 0 0 10px rgba(0, 242, 254, 0.3); }
+        .btn-bot:hover .arrow-icon, .btn-bot.scroll-active .arrow-icon { color: #00f2fe; transform: translateZ(20px) translateX(6px); opacity: 1; }
 
         .btn-cases:hover .btn-icon-box, .btn-cases.scroll-active .btn-icon-box { background: rgba(255, 255, 255, 0.1); border-color: #fff; color: #fff; box-shadow: 0 0 20px rgba(255, 255, 255, 0.2); }
         .btn-cases:hover h3, .btn-cases.scroll-active h3 { color: #fff; text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
         .btn-cases:hover .arrow-icon, .btn-cases.scroll-active .arrow-icon { color: #fff; transform: translateZ(20px) translateX(6px); opacity: 1; }
 
         .btn-telegram:hover .btn-icon-box, .btn-telegram.scroll-active .btn-icon-box { background: rgba(42, 171, 238, 0.15); border-color: #2AABEE; color: #2AABEE; box-shadow: 0 0 20px rgba(42, 171, 238, 0.3); }
-        .btn-telegram:hover h3, .btn-telegram.scroll-active h3 { color: #2AABEE; text-shadow: 0 0 10px rgba(42, 171, 238, 0.3); }
+        .btn-telegram:hover h3, .btn-telegram.scroll-active h3 { color: #fff; text-shadow: 0 0 10px rgba(42, 171, 238, 0.3); }
+        .btn-telegram:hover p, .btn-telegram.scroll-active p { color: #d4d4d8; }
         .btn-telegram:hover .arrow-icon, .btn-telegram.scroll-active .arrow-icon { color: #2AABEE; transform: translateZ(20px) translateX(6px); opacity: 1; }
         
         .btn-whatsapp:hover .btn-icon-box, .btn-whatsapp.scroll-active .btn-icon-box { background: rgba(37, 211, 102, 0.15); border-color: #25D366; color: #25D366; box-shadow: 0 0 20px rgba(37, 211, 102, 0.3); }
@@ -380,7 +398,8 @@
         /* --- SCROLL REVEAL ANIMATIONS (JS triggered) --- */
         .reveal-item {
             opacity: 0; transform: translateY(30px) scale(0.98); filter: blur(5px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform, opacity, filter;
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity, filter;
         }
         .reveal-item.is-visible { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 
@@ -439,16 +458,19 @@
             </div>
             
             <div class="fade-in d-2 flex flex-col items-center mb-4 w-full">
-                <!-- Name fixed, JS splitting removed, forced to 1 line, "made" correctly positioned -->
-                <h1 class="relative text-3xl sm:text-[3.5rem] lg:text-[4rem] font-serif text-white tracking-widest uppercase flex flex-row items-center justify-center gap-2 sm:gap-3 drop-shadow-2xl whitespace-nowrap w-full">
+                <!-- Name fixed, Fluid Typography via clamp(), "made" positioned organically with em units -->
+                <h1 class="text-[clamp(2.5rem,8vw,4.5rem)] font-serif text-white tracking-widest uppercase flex flex-row items-center justify-center gap-2 sm:gap-3 drop-shadow-2xl w-full">
                     <span class="font-medium text-zinc-100">Pavel</span> 
-                    <span class="text-gradient-gold font-bold">Markov</span>
-                    <span class="absolute -bottom-5 right-0 sm:-bottom-6 sm:-right-6 text-[2.2rem] sm:text-[3rem] signature-made transform -rotate-12 z-10 pointer-events-none opacity-90 lowercase" style="letter-spacing: normal;">made</span>
+                    <span class="text-gradient-gold font-bold relative">
+                        Markov
+                        <!-- Идеально сбалансированная подпись "made" -->
+                        <span class="absolute -bottom-[0.35em] -right-[0.45em] text-[0.65em] signature-made transform -rotate-6 pointer-events-none opacity-85 lowercase" style="letter-spacing: normal; text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);">made</span>
+                    </span>
                 </h1>
                 
-                <!-- USP Slogan - Niche & Specific - Forced on 1 line -->
-                <h2 class="text-[8px] sm:text-[11px] font-semibold tracking-[0.2em] sm:tracking-[0.25em] uppercase text-zinc-400 mt-5 sm:mt-6 mb-2 reveal-usp whitespace-nowrap text-center w-full">
-                    ФИТНЕС-ИНЖЕНЕРИЯ <span class="text-gold-base mx-1 sm:mx-1.5 opacity-60">•</span> БИОХАКИНГ ПИТАНИЯ <span class="text-gold-base mx-1 sm:mx-1.5 opacity-60">•</span> ЭЛИТНОЕ МЕНТОРСТВО
+                <!-- USP Slogan - Allowed to wrap gracefully -->
+                <h2 class="text-[9px] sm:text-[11px] font-semibold tracking-[0.2em] sm:tracking-[0.25em] uppercase text-zinc-400 mt-5 sm:mt-6 mb-2 reveal-usp text-center max-w-[280px] sm:max-w-none mx-auto leading-relaxed">
+                    ФИТНЕС-ИНЖЕНЕРИЯ <span class="text-gold-base mx-1 sm:mx-1.5 opacity-60 inline-block">•</span> БИОХАКИНГ ПИТАНИЯ <span class="text-gold-base mx-1 sm:mx-1.5 opacity-60 inline-block">•</span> ЭЛИТНОЕ МЕНТОРСТВО
                 </h2>
             </div>
             
@@ -474,10 +496,8 @@
                     <span class="text-gold-base text-[10px] sm:text-xs tracking-[0.4em] uppercase font-bold text-shadow-sm">Глобальная Экспертиза</span>
                     <span class="h-px w-4 bg-gold-base/50"></span>
                 </div>
-                <!-- Fixed Text (Parallax removed) -->
                 <h2 class="text-2xl sm:text-[28px] font-serif font-bold text-white mb-4 tracking-wide text-shadow-lg">Архитектура Трансформации</h2>
                 
-                <!-- Professional Copywriting Update -->
                 <p class="text-[14px] sm:text-[15px] text-zinc-300 font-normal leading-relaxed max-w-md mx-auto relative z-10">
                     Фундамент, на котором мы строим вашу <strong class="text-white font-semibold">новую личность</strong>. Я гарантирую железобетонные трансформации, подкрепленные профильным образованием и выдающимися результатами моих <strong class="text-gold-light font-semibold border-b border-gold-base/30 pb-0.5">подопечных</strong>.
                 </p>
@@ -596,20 +616,20 @@
                 <span class="h-px w-8 bg-zinc-800"></span>
             </h2>
 
-            <a href="https://t.me/markovmade" target="_blank" class="reveal-item elite-btn interactive-block tilt-element btn-telegram group border-gold-base/40 bg-gold-base/[0.05]">
+            <a href="https://t.me/markovmade" target="_blank" class="reveal-item elite-btn interactive-block tilt-element btn-telegram group border-[#2AABEE]/30 bg-[#2AABEE]/[0.05]" aria-label="Написать Павлу Маркову в Telegram">
                 <div class="flex items-center gap-5 w-full btn-text-content">
-                    <div class="btn-icon-box !text-gold-base !border-gold-base/30 !bg-gold-base/10 text-xl shadow-[0_0_15px_rgba(212,175,55,0.2)]">
+                    <div class="btn-icon-box !text-[#2AABEE] !border-[#2AABEE]/30 !bg-[#2AABEE]/10 text-xl shadow-[0_0_15px_rgba(42,171,238,0.2)] group-hover:shadow-[0_0_25px_rgba(42,171,238,0.4)] transition-all">
                         <i class="fa-brands fa-telegram"></i>
                     </div>
                     <div class="text-left flex-grow">
-                        <h3 class="font-bold text-[18px] text-gold-base tracking-wide transition-colors text-shadow-sm">Telegram</h3>
-                        <p class="text-[13px] text-gold-base/70 font-medium mt-0.5">Прямая связь & Запись на менторство</p>
+                        <h3 class="font-bold text-[18px] text-[#2AABEE] tracking-wide transition-colors text-shadow-sm group-hover:text-white">Telegram</h3>
+                        <p class="text-[13px] text-[#2AABEE]/80 font-medium mt-0.5 group-hover:text-zinc-300 transition-colors">Прямая связь & Запись на менторство</p>
                     </div>
-                    <i class="fa-solid fa-arrow-right text-gold-base arrow-icon opacity-80"></i>
+                    <i class="fa-solid fa-arrow-right text-[#2AABEE] arrow-icon opacity-80 group-hover:opacity-100"></i>
                 </div>
             </a>
 
-            <a href="https://wa.me/79819722516" target="_blank" class="reveal-item elite-btn interactive-block tilt-element btn-whatsapp group">
+            <a href="https://wa.me/79819722516" target="_blank" class="reveal-item elite-btn interactive-block tilt-element btn-whatsapp group" aria-label="Написать в WhatsApp">
                 <div class="flex items-center gap-5 w-full btn-text-content">
                     <div class="btn-icon-box text-xl">
                         <i class="fa-brands fa-whatsapp"></i>
@@ -629,7 +649,7 @@
                 <span class="h-px w-8 bg-zinc-800"></span>
             </h2>
 
-            <a href="https://www.instagram.com/markovmafia" target="_blank" class="reveal-item elite-btn interactive-block tilt-element btn-instagram group">
+            <a href="https://www.instagram.com/markovmafia" target="_blank" class="reveal-item elite-btn interactive-block tilt-element btn-instagram group" aria-label="Профиль в Instagram">
                 <div class="flex items-center gap-5 w-full btn-text-content">
                     <div class="btn-icon-box text-xl">
                         <i class="fa-brands fa-instagram"></i>
@@ -642,7 +662,7 @@
                 </div>
             </a>
 
-            <a href="https://www.youtube.com/@YoungAthleteMarko" target="_blank" class="reveal-item elite-btn interactive-block tilt-element btn-youtube group">
+            <a href="https://www.youtube.com/@YoungAthleteMarko" target="_blank" class="reveal-item elite-btn interactive-block tilt-element btn-youtube group" aria-label="Канал на YouTube">
                 <div class="flex items-center gap-5 w-full btn-text-content">
                     <div class="btn-icon-box text-xl">
                         <i class="fa-brands fa-youtube"></i>
@@ -655,7 +675,7 @@
                 </div>
             </a>
 
-            <a href="https://www.tiktok.com/@feudalcaste" target="_blank" class="reveal-item elite-btn interactive-block tilt-element btn-tiktok group">
+            <a href="https://www.tiktok.com/@feudalcaste" target="_blank" class="reveal-item elite-btn interactive-block tilt-element btn-tiktok group" aria-label="Аккаунт в TikTok">
                 <div class="flex items-center gap-5 w-full btn-text-content">
                     <div class="btn-icon-box text-xl">
                         <i class="fa-brands fa-tiktok"></i>
@@ -671,36 +691,36 @@
         </section>
 
         <!-- Niche Socials Grid -->
-        <section class="w-full reveal-item mb-12">
-            <h2 class="text-[11px] font-bold uppercase tracking-[0.25em] text-zinc-600 text-center mb-6 flex items-center justify-center gap-4">
+        <section class="w-full mb-12">
+            <h2 class="reveal-item text-[11px] font-bold uppercase tracking-[0.25em] text-zinc-600 text-center mb-6 flex items-center justify-center gap-4">
                 <span class="h-px w-6 bg-zinc-800"></span>
                 Дополнительно
                 <span class="h-px w-6 bg-zinc-800"></span>
             </h2>
             
             <div class="flex justify-center gap-4 sm:gap-6 flex-wrap">
-                <a href="https://vk.com/markovmafia" target="_blank" class="grid-item grid-vk interactive-block flex flex-col items-center group" title="VKontakte">
+                <!-- Staggered Delays for Grid Items -->
+                <a href="https://vk.com/markovmafia" target="_blank" class="grid-item grid-vk interactive-block flex flex-col items-center group reveal-item" style="transition-delay: 0.1s;" aria-label="Профиль VK">
                     <div class="grid-icon w-14 h-14 rounded-xl flex items-center justify-center text-zinc-400 text-xl">
                         <i class="fa-brands fa-vk"></i>
                     </div>
                 </a>
-                <a href="#" class="grid-item grid-facebook interactive-block flex flex-col items-center group" title="Facebook">
+                <a href="#" class="grid-item grid-facebook interactive-block flex flex-col items-center group reveal-item" style="transition-delay: 0.2s;" aria-label="Профиль Facebook">
                     <div class="grid-icon w-14 h-14 rounded-xl flex items-center justify-center text-zinc-400 text-xl">
                         <i class="fa-brands fa-facebook-f"></i>
                     </div>
                 </a>
-                <a href="#" class="grid-item grid-twitch interactive-block flex flex-col items-center group" title="Twitch">
+                <a href="#" class="grid-item grid-twitch interactive-block flex flex-col items-center group reveal-item" style="transition-delay: 0.3s;" aria-label="Канал Twitch">
                     <div class="grid-icon w-14 h-14 rounded-xl flex items-center justify-center text-zinc-400 text-xl">
                         <i class="fa-brands fa-twitch"></i>
                     </div>
                 </a>
-                <a href="#" class="grid-item grid-discord interactive-block flex flex-col items-center group" title="Discord">
+                <a href="#" class="grid-item grid-discord interactive-block flex flex-col items-center group reveal-item" style="transition-delay: 0.4s;" aria-label="Сервер Discord">
                     <div class="grid-icon w-14 h-14 rounded-xl flex items-center justify-center text-zinc-400 text-xl">
                         <i class="fa-brands fa-discord"></i>
                     </div>
                 </a>
-                <!-- Email Copy Logic injected here -->
-                <a href="#" onclick="copyEmail(event)" class="grid-item grid-email interactive-block flex flex-col items-center group" title="Копировать Email">
+                <a href="#" onclick="copyEmail(event)" class="grid-item grid-email interactive-block flex flex-col items-center group reveal-item" style="transition-delay: 0.5s;" aria-label="Скопировать Email">
                     <div class="grid-icon w-14 h-14 rounded-xl flex items-center justify-center text-zinc-400 text-xl">
                         <i class="fa-solid fa-envelope"></i>
                     </div>
@@ -761,7 +781,6 @@
         document.addEventListener('click', initAudio, { once: true });
         document.addEventListener('touchstart', initAudio, { once: true });
 
-
         // 2. SMOOTH SCROLL (Lenis)
         const lenis = new Lenis({
             duration: 1.2,
@@ -781,7 +800,6 @@
         }
         requestAnimationFrame(raf);
 
-
         // 3. PRELOADER
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
@@ -796,7 +814,7 @@
             }, 1000);
         });
 
-        // 5. COPY EMAIL TO CLIPBOARD LOGIC
+        // 4. COPY EMAIL TO CLIPBOARD LOGIC
         function copyEmail(e) {
             e.preventDefault();
             const email = 'castefeudal@gmail.com';
@@ -827,7 +845,7 @@
             setTimeout(() => { toast.classList.remove('show'); }, 3000);
         }
 
-        // 6. SCROLL REVEAL OBSERVER & SMART MOBILE INTERACTIONS
+        // 5. SCROLL REVEAL OBSERVER & SMART MOBILE INTERACTIONS
         document.addEventListener('DOMContentLoaded', () => {
             
             // Fade-in Reveal Observer
@@ -839,6 +857,10 @@
                     if (!entry.isIntersecting) return;
                     entry.target.classList.add('is-visible');
                     observer.unobserve(entry.target);
+                    // Убираем задержку после появления, чтобы hover эффекты работали моментально
+                    setTimeout(() => {
+                        entry.target.style.transitionDelay = '0s';
+                    }, 1000);
                 });
             }, revealOptions);
 
@@ -868,7 +890,7 @@
                 const interactiveBlocks = document.querySelectorAll('.interactive-block');
                 interactiveBlocks.forEach(el => highlightObserver.observe(el));
             } else {
-                // 3D TILT И УМНЫЙ КУРСОР ДЛЯ ПК
+                // 3D TILT И УМНЫЙ ДИНАМИЧЕСКИЙ КУРСОР ДЛЯ ПК
                 const tiltElements = document.querySelectorAll('.tilt-element');
                 const cursor = document.getElementById('ambient-cursor');
                 cursor.style.display = 'block';
@@ -894,15 +916,39 @@
                     });
                 });
 
-                // Smart Cursor & Audio Feedback
+                // Smart Cursor Theme Switching & Audio
                 const links = document.querySelectorAll('a, button, .interactive-block');
                 links.forEach(link => {
                     link.addEventListener('mouseenter', () => {
                         cursor.style.width = '80px';
                         cursor.style.height = '80px';
-                        cursor.style.background = 'radial-gradient(circle, rgba(212, 175, 55, 0.4) 0%, transparent 70%)';
+                        
+                        // Theme Colors logic
+                        if (link.classList.contains('theme-fitness')) {
+                            cursor.style.background = 'radial-gradient(circle, rgba(255, 59, 59, 0.35) 0%, transparent 70%)';
+                        } else if (link.classList.contains('theme-nutrition')) {
+                            cursor.style.background = 'radial-gradient(circle, rgba(16, 185, 129, 0.35) 0%, transparent 70%)';
+                        } else if (link.classList.contains('theme-mental')) {
+                            cursor.style.background = 'radial-gradient(circle, rgba(59, 130, 246, 0.35) 0%, transparent 70%)';
+                        } else if (link.classList.contains('btn-telegram') || link.classList.contains('grid-vk') || link.classList.contains('grid-facebook')) {
+                            cursor.style.background = 'radial-gradient(circle, rgba(42, 171, 238, 0.35) 0%, transparent 70%)';
+                        } else if (link.classList.contains('btn-bot') || link.classList.contains('btn-tiktok')) {
+                            cursor.style.background = 'radial-gradient(circle, rgba(0, 242, 254, 0.35) 0%, transparent 70%)';
+                        } else if (link.classList.contains('btn-whatsapp')) {
+                            cursor.style.background = 'radial-gradient(circle, rgba(37, 211, 102, 0.35) 0%, transparent 70%)';
+                        } else if (link.classList.contains('btn-instagram')) {
+                            cursor.style.background = 'radial-gradient(circle, rgba(225, 48, 108, 0.35) 0%, transparent 70%)';
+                        } else if (link.classList.contains('btn-youtube')) {
+                            cursor.style.background = 'radial-gradient(circle, rgba(255, 0, 0, 0.35) 0%, transparent 70%)';
+                        } else if (link.classList.contains('grid-twitch') || link.classList.contains('grid-discord')) {
+                            cursor.style.background = 'radial-gradient(circle, rgba(145, 70, 255, 0.35) 0%, transparent 70%)';
+                        } else {
+                            cursor.style.background = 'radial-gradient(circle, rgba(212, 175, 55, 0.4) 0%, transparent 70%)';
+                        }
+
                         playHoverSound();
                     });
+                    
                     link.addEventListener('mouseleave', () => {
                         cursor.style.width = '400px';
                         cursor.style.height = '400px';
