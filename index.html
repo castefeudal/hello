@@ -3,15 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- SEO & Open Graph Meta Tags -->
     <title>Павел Марков | Elite Mentorship & Identity</title>
+    <meta name="description" content="Фитнес-инженерия. Биохакинг питания. Элитное менторство.">
+    <meta property="og:title" content="Павел Марков | Elite Mentorship">
+    <meta property="og:description" content="Фитнес-инженерия. Биохакинг питания. Элитное менторство.">
+    <meta property="og:image" content="https://i.ibb.co/LDtSV2gz/photo-2025-08-27-18-36-02.jpg">
+    <meta property="og:url" content="https://pavelmarkov.com">
+    <meta property="og:type" content="website">
+    
+    <!-- Custom SVG Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23020202%22/><text x=%2250%22 y=%2266%22 font-family=%22serif%22 font-size=%2255%22 font-weight=%22bold%22 fill=%22%23D4AF37%22 text-anchor=%22middle%22>PM</text></svg>">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts -->
+    <!-- Smooth Scroll Lenis -->
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <!-- Google Fonts: Inter & Cormorant -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
     
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -42,55 +56,73 @@
             --gold-bright: #D4AF37;
         }
 
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+
         body {
             background-color: #020202;
             color: #ffffff;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            cursor: none; /* Hide default cursor on desktop for custom ambient cursor */
-            /* Prevent tap highlight color on mobile */
+            cursor: none; /* Hide default cursor on desktop */
             -webkit-tap-highlight-color: transparent;
         }
 
         @media (max-width: 768px) {
-            body { cursor: auto; } /* Restore cursor on mobile */
+            body { cursor: auto; }
         }
+
+        /* --- PRELOADER --- */
+        #preloader {
+            position: fixed; inset: 0; z-index: 9999;
+            background: #020202;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 0.6s ease-out, visibility 0.6s ease-out;
+        }
+        .preloader-monogram {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4.5rem; font-weight: 700;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            animation: preloaderPulse 1.5s infinite alternate ease-in-out;
+        }
+        .preloader-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem; letter-spacing: 0.5em; text-transform: uppercase;
+            color: #888; margin-top: 1rem;
+            animation: fadeInOut 2s infinite ease-in-out;
+        }
+        @keyframes preloaderPulse { 0% { transform: scale(0.95); filter: drop-shadow(0 0 5px rgba(212,175,55,0.2)); } 100% { transform: scale(1.05); filter: drop-shadow(0 0 20px rgba(212,175,55,0.6)); } }
+        @keyframes fadeInOut { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
         /* --- AMBIENT CURSOR --- */
         .ambient-cursor {
             position: fixed; top: 0; left: 0;
             width: 400px; height: 400px;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 60%);
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, transparent 60%);
             border-radius: 50%; pointer-events: none; z-index: -2;
-            transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s;
-            mix-blend-mode: screen; display: none;
+            transform: translate(-50%, -50%); transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
+            mix-blend-mode: screen; display: none; will-change: transform, width, height;
         }
 
         /* --- ULTRA LUXURY DYNAMIC BACKGROUND --- */
         .bg-core {
             position: fixed; inset: 0; z-index: -5;
-            background: linear-gradient(135deg, #13110f 0%, #0a0908 50%, #161412 100%);
+            background: linear-gradient(135deg, #0d0c0a 0%, #050505 50%, #0a0908 100%);
         }
-
         .bg-glow-1 {
             position: fixed; top: -10%; left: -10%; width: 90vw; height: 90vw;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, transparent 65%);
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 65%);
             filter: blur(90px); animation: drift-1 25s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); z-index: -4;
         }
-
         .bg-glow-2 {
             position: fixed; bottom: -20%; right: -10%; width: 80vw; height: 80vw;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 60%);
             filter: blur(100px); animation: drift-2 30s infinite alternate-reverse cubic-bezier(0.4, 0, 0.2, 1); z-index: -4;
         }
-        
-        .bg-glow-3 {
-            position: fixed; top: 30%; left: 20%; width: 100vw; height: 100vw;
-            background: radial-gradient(circle, rgba(166, 136, 43, 0.1) 0%, transparent 65%);
-            filter: blur(120px); animation: drift-3 35s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); z-index: -4;
-        }
-
         .bg-grid {
             position: fixed; inset: 0; z-index: -3;
             background-image: linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
@@ -98,7 +130,6 @@
             mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 70%);
             -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 70%);
         }
-
         .noise-overlay {
             position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.035;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
@@ -106,9 +137,8 @@
 
         @keyframes drift-1 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(15%, 10%) scale(1.1); } }
         @keyframes drift-2 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-15%, -10%) scale(1.2); } }
-        @keyframes drift-3 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(10%, 15%) scale(1.15); } }
 
-        /* --- TYPOGRAPHY --- */
+        /* --- TYPOGRAPHY & ANIMATIONS --- */
         .text-gradient-gold {
             background: var(--gold-gradient); background-size: 200% auto;
             -webkit-background-clip: text; background-clip: text; color: transparent;
@@ -122,7 +152,13 @@
             text-shadow: 0 2px 15px rgba(212, 175, 55, 0.4), 0 0 30px rgba(212, 175, 55, 0.2);
         }
 
-        /* --- LEVITATING AVATAR --- */
+        .reveal-usp {
+            opacity: 0; transform: translateY(15px); filter: blur(5px);
+            animation: fadeUsp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+        }
+        @keyframes fadeUsp { to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+
+        /* --- LEVITATING AVATAR GLASSMORPHISM --- */
         .avatar-wrapper { animation: levitate 6s infinite ease-in-out; }
         @keyframes levitate { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
@@ -136,8 +172,10 @@
 
         .avatar-ring {
             position: relative; padding: 4px; border-radius: 50%;
-            background: linear-gradient(145deg, rgba(212, 175, 55, 0.9), rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.4));
-            box-shadow: 0 15px 40px rgba(0,0,0,0.8), inset 0 0 25px rgba(212,175,55,0.3);
+            background: radial-gradient(circle at center, rgba(212, 175, 55, 0.25), rgba(0,0,0,0.1));
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.8), inset 0 0 25px rgba(212,175,55,0.4);
+            border: 1px solid rgba(212, 175, 55, 0.15);
         }
 
         /* --- GLOBAL EXPERTISE HEADER --- */
@@ -146,8 +184,7 @@
             border: 1px solid rgba(255,255,255,0.05); border-bottom: none;
             border-radius: 28px 28px 0 0;
             padding: 2.5rem 1.5rem 3.5rem 1.5rem;
-            margin-bottom: -1rem; /* Slightly pulled up, dot removed */
-            position: relative;
+            margin-bottom: -1rem; position: relative;
             box-shadow: inset 0 1px 1px rgba(255,255,255,0.05);
             backdrop-filter: blur(10px);
         }
@@ -160,17 +197,15 @@
             border-radius: 24px;
             position: relative; overflow: hidden;
             box-shadow: 0 20px 40px -10px rgba(0,0,0,0.8), inset 0 1px 1px rgba(255,255,255,0.05);
-            
             transform-style: preserve-3d;
             transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
             transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease, border-color 0.4s ease, background 0.4s ease;
-            
             --theme-color: #D4AF37; --theme-glow: rgba(212, 175, 55, 0.2);
         }
 
-        .theme-fitness { --theme-color: #ff2a2a; --theme-glow: rgba(255, 42, 42, 0.25); }
-        .theme-nutrition { --theme-color: #00f260; --theme-glow: rgba(0, 242, 96, 0.25); }
-        .theme-mental { --theme-color: #00c3ff; --theme-glow: rgba(0, 195, 255, 0.25); }
+        .theme-fitness { --theme-color: #ff3b3b; --theme-glow: rgba(255, 59, 59, 0.25); }
+        .theme-nutrition { --theme-color: #10b981; --theme-glow: rgba(16, 185, 129, 0.25); }
+        .theme-mental { --theme-color: #3b82f6; --theme-glow: rgba(59, 130, 246, 0.25); }
 
         .expertise-card::before {
             content: ''; position: absolute; top: 0; left: 0; right: 0; height: 100%;
@@ -178,56 +213,70 @@
             opacity: 0.04; transition: opacity 0.5s ease; pointer-events: none;
         }
 
-        /* Hover & Touch Active states */
-        .expertise-card:hover, .expertise-card.touch-active {
+        .expertise-card:hover, .expertise-card.scroll-active {
             border-color: rgba(255,255,255,0.1);
             background: rgba(20, 20, 22, 0.85);
             box-shadow: 0 30px 50px -15px rgba(0,0,0,0.9), 0 0 30px var(--theme-glow);
             z-index: 20;
         }
-        /* Mobile specific lift without 3D tilt logic fighting it */
         @media (max-width: 768px) {
-            .expertise-card.touch-active { transform: translateY(-4px) scale(1.01); }
+            .expertise-card.scroll-active { transform: translateY(-4px) scale(1.01); }
         }
 
-        .expertise-card:hover::before, .expertise-card.touch-active::before { opacity: 0.15; }
+        .expertise-card:hover::before, .expertise-card.scroll-active::before { opacity: 0.15; }
 
         .card-icon-wrapper {
             background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(0,0,0,0.4));
             border: 1px solid rgba(255, 255, 255, 0.08); color: var(--gold-base);
             box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
-            transition: all 0.5s ease;
-            transform: translateZ(30px);
+            transition: all 0.5s ease; transform: translateZ(30px);
         }
         
-        .expertise-card:hover .card-icon-wrapper, .expertise-card.touch-active .card-icon-wrapper {
+        .expertise-card:hover .card-icon-wrapper, .expertise-card.scroll-active .card-icon-wrapper {
             border-color: var(--theme-color); color: #fff;
             background: linear-gradient(135deg, var(--theme-glow), rgba(0,0,0,0.6));
             box-shadow: 0 0 20px var(--theme-glow), inset 0 1px 1px rgba(255,255,255,0.2);
             text-shadow: 0 0 10px var(--theme-color);
         }
+
+        /* --- LOTTIE-STYLE CSS ANIMATIONS FOR ICONS --- */
+        .anim-dumbbell, .anim-dna, .anim-chess { transition: transform 0.3s ease; }
+        
+        .expertise-card:hover .anim-dumbbell, .expertise-card.scroll-active .anim-dumbbell {
+            animation: lift 1.2s ease-in-out infinite;
+        }
+        @keyframes lift {
+            0%, 100% { transform: rotate(0deg) translateY(0); }
+            25% { transform: rotate(-25deg) translateY(-3px); }
+            75% { transform: rotate(25deg) translateY(-3px); }
+        }
+
+        .expertise-card:hover .anim-dna, .expertise-card.scroll-active .anim-dna {
+            animation: spinY 2s linear infinite;
+        }
+        @keyframes spinY { 0% { transform: rotateY(0deg); } 100% { transform: rotateY(360deg); } }
+
+        .expertise-card:hover .anim-chess, .expertise-card.scroll-active .anim-chess {
+            animation: strategize 1.5s cubic-bezier(0.28, 0.84, 0.42, 1) infinite;
+        }
+        @keyframes strategize {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-6px) scale(1.1); filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5)); }
+        }
         
         .theme-title { transform: translateZ(20px); transition: color 0.4s ease, text-shadow 0.4s ease; }
-        
-        .expertise-card:hover .theme-title, .expertise-card.touch-active .theme-title { 
-            color: var(--theme-color); 
-            text-shadow: 0 0 15px var(--theme-glow); 
+        .expertise-card:hover .theme-title, .expertise-card.scroll-active .theme-title { 
+            color: var(--theme-color); text-shadow: 0 0 15px var(--theme-glow); 
         }
 
         .expertise-list li { position: relative; padding-left: 2.2rem; margin-bottom: 1rem; line-height: 1.6; }
-        
-        /* Thematic Icons styling */
         .expertise-list li i { 
             position: absolute; left: 0; top: 0.25rem; 
             color: var(--gold-bright); font-size: 1rem; 
-            transition: all 0.4s ease; 
-            display: flex; justify-content: center; width: 1.5rem;
+            transition: all 0.4s ease; display: flex; justify-content: center; width: 1.5rem;
         }
-        
-        .expertise-card:hover .expertise-list li i, .expertise-card.touch-active .expertise-list li i { 
-            color: var(--theme-color); 
-            filter: drop-shadow(0 0 5px var(--theme-color)); 
-            transform: scale(1.1); 
+        .expertise-card:hover .expertise-list li i, .expertise-card.scroll-active .expertise-list li i { 
+            color: var(--theme-color); filter: drop-shadow(0 0 5px var(--theme-color)); transform: scale(1.1); 
         }
 
         /* --- BUTTONS --- */
@@ -238,23 +287,20 @@
             border-radius: 20px;
             display: flex; align-items: center; padding: 1.1rem 1.25rem;
             box-shadow: 0 10px 20px -5px rgba(0,0,0,0.5);
-            
             transform-style: preserve-3d;
             transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
             transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.4s ease, box-shadow 0.4s ease;
         }
 
-        .elite-btn:hover, .elite-btn.touch-active {
+        .elite-btn:hover, .elite-btn.scroll-active {
             background: rgba(25, 25, 28, 0.9);
-            box-shadow: 0 20px 30px -5px rgba(0,0,0,0.8);
-            z-index: 10;
+            box-shadow: 0 20px 30px -5px rgba(0,0,0,0.8); z-index: 10;
         }
         @media (max-width: 768px) {
-            .elite-btn.touch-active { transform: translateY(-3px) scale(1.01); }
+            .elite-btn.scroll-active { transform: translateY(-3px) scale(1.01); }
         }
 
-        /* The Crown Jewel Light Sweep */
-        .btn-kasta { position: relative; overflow: hidden; border-color: rgba(212, 175, 55, 0.3); }
+        .btn-kasta { position: relative; overflow: hidden; border-color: rgba(212, 175, 55, 0.3); background: rgba(212, 175, 55, 0.03); }
         .btn-kasta::after {
             content: ''; position: absolute; top: 0; left: -150%; width: 50%; height: 100%;
             background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent);
@@ -273,38 +319,38 @@
         .btn-text-content { transform: translateZ(15px); }
         .elite-btn .arrow-icon { transition: all 0.4s ease; opacity: 0.5; transform: translateZ(20px); }
 
-        /* Button Network Hover/Touch Classes */
-        .btn-kasta:hover .btn-icon-box, .btn-kasta.touch-active .btn-icon-box { background: rgba(212, 175, 55, 0.15); border-color: #D4AF37; color: #D4AF37; box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); }
-        .btn-kasta:hover h3, .btn-kasta.touch-active h3 { color: #D4AF37; text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
-        .btn-kasta:hover .arrow-icon, .btn-kasta.touch-active .arrow-icon { color: #D4AF37; transform: translateZ(20px) translateX(6px); opacity: 1; }
+        /* Button Colors Logic */
+        .btn-kasta:hover .btn-icon-box, .btn-kasta.scroll-active .btn-icon-box { background: rgba(212, 175, 55, 0.15); border-color: #D4AF37; color: #D4AF37; box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); }
+        .btn-kasta:hover h3, .btn-kasta.scroll-active h3 { color: #D4AF37; text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
+        .btn-kasta:hover .arrow-icon, .btn-kasta.scroll-active .arrow-icon { color: #D4AF37; transform: translateZ(20px) translateX(6px); opacity: 1; }
 
-        .btn-telegram:hover .btn-icon-box, .btn-telegram.touch-active .btn-icon-box { background: rgba(42, 171, 238, 0.15); border-color: #2AABEE; color: #2AABEE; box-shadow: 0 0 20px rgba(42, 171, 238, 0.3); }
-        .btn-telegram:hover h3, .btn-telegram.touch-active h3 { color: #2AABEE; }
-        .btn-telegram:hover .arrow-icon, .btn-telegram.touch-active .arrow-icon { color: #2AABEE; transform: translateZ(20px) translateX(6px); opacity: 1; }
+        .btn-bot:hover .btn-icon-box, .btn-bot.scroll-active .btn-icon-box { background: rgba(166, 136, 43, 0.15); border-color: #A6882B; color: #A6882B; box-shadow: 0 0 20px rgba(166, 136, 43, 0.3); }
+        .btn-bot:hover h3, .btn-bot.scroll-active h3 { color: #A6882B; }
+        .btn-bot:hover .arrow-icon, .btn-bot.scroll-active .arrow-icon { color: #A6882B; transform: translateZ(20px) translateX(6px); opacity: 1; }
 
-        .btn-instagram:hover .btn-icon-box, .btn-instagram.touch-active .btn-icon-box { background: rgba(225, 48, 108, 0.15); border-color: #E1306C; color: #E1306C; box-shadow: 0 0 20px rgba(225, 48, 108, 0.3); }
-        .btn-instagram:hover h3, .btn-instagram.touch-active h3 { color: #E1306C; }
-        .btn-instagram:hover .arrow-icon, .btn-instagram.touch-active .arrow-icon { color: #E1306C; transform: translateZ(20px) translateX(6px); opacity: 1; }
+        .btn-cases:hover .btn-icon-box, .btn-cases.scroll-active .btn-icon-box { background: rgba(255, 255, 255, 0.1); border-color: #fff; color: #fff; box-shadow: 0 0 20px rgba(255, 255, 255, 0.2); }
+        .btn-cases:hover h3, .btn-cases.scroll-active h3 { color: #fff; text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
+        .btn-cases:hover .arrow-icon, .btn-cases.scroll-active .arrow-icon { color: #fff; transform: translateZ(20px) translateX(6px); opacity: 1; }
 
-        .btn-youtube:hover .btn-icon-box, .btn-youtube.touch-active .btn-icon-box { background: rgba(255, 0, 0, 0.15); border-color: #FF0000; color: #FF0000; box-shadow: 0 0 20px rgba(255, 0, 0, 0.3); }
-        .btn-youtube:hover h3, .btn-youtube.touch-active h3 { color: #FF0000; }
-        .btn-youtube:hover .arrow-icon, .btn-youtube.touch-active .arrow-icon { color: #FF0000; transform: translateZ(20px) translateX(6px); opacity: 1; }
+        .btn-telegram:hover .btn-icon-box, .btn-telegram.scroll-active .btn-icon-box { background: rgba(42, 171, 238, 0.15); border-color: #2AABEE; color: #2AABEE; box-shadow: 0 0 20px rgba(42, 171, 238, 0.3); }
+        .btn-telegram:hover h3, .btn-telegram.scroll-active h3 { color: #2AABEE; text-shadow: 0 0 10px rgba(42, 171, 238, 0.3); }
+        .btn-telegram:hover .arrow-icon, .btn-telegram.scroll-active .arrow-icon { color: #2AABEE; transform: translateZ(20px) translateX(6px); opacity: 1; }
+        
+        .btn-whatsapp:hover .btn-icon-box, .btn-whatsapp.scroll-active .btn-icon-box { background: rgba(37, 211, 102, 0.15); border-color: #25D366; color: #25D366; box-shadow: 0 0 20px rgba(37, 211, 102, 0.3); }
+        .btn-whatsapp:hover h3, .btn-whatsapp.scroll-active h3 { color: #25D366; }
+        .btn-whatsapp:hover .arrow-icon, .btn-whatsapp.scroll-active .arrow-icon { color: #25D366; transform: translateZ(20px) translateX(6px); opacity: 1; }
 
-        .btn-tiktok:hover .btn-icon-box, .btn-tiktok.touch-active .btn-icon-box { background: rgba(0, 242, 254, 0.15); border-color: #00f2fe; color: #00f2fe; box-shadow: 0 0 20px rgba(0, 242, 254, 0.3); text-shadow: 2px 2px 0px #ff0050, -2px -2px 0px #00f2fe; }
-        .btn-tiktok:hover h3, .btn-tiktok.touch-active h3 { color: #ffffff; text-shadow: 0 0 10px rgba(0, 242, 254, 0.5); }
-        .btn-tiktok:hover .arrow-icon, .btn-tiktok.touch-active .arrow-icon { color: #00f2fe; transform: translateZ(20px) translateX(6px); opacity: 1; }
+        .btn-instagram:hover .btn-icon-box, .btn-instagram.scroll-active .btn-icon-box { background: rgba(225, 48, 108, 0.15); border-color: #E1306C; color: #E1306C; box-shadow: 0 0 20px rgba(225, 48, 108, 0.3); }
+        .btn-instagram:hover h3, .btn-instagram.scroll-active h3 { color: #E1306C; }
+        .btn-instagram:hover .arrow-icon, .btn-instagram.scroll-active .arrow-icon { color: #E1306C; transform: translateZ(20px) translateX(6px); opacity: 1; }
 
-        .btn-x:hover .btn-icon-box, .btn-x.touch-active .btn-icon-box { background: rgba(255, 255, 255, 0.15); border-color: #ffffff; color: #ffffff; box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); }
-        .btn-x:hover h3, .btn-x.touch-active h3 { color: #ffffff; text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
-        .btn-x:hover .arrow-icon, .btn-x.touch-active .arrow-icon { color: #ffffff; transform: translateZ(20px) translateX(6px); opacity: 1; }
+        .btn-youtube:hover .btn-icon-box, .btn-youtube.scroll-active .btn-icon-box { background: rgba(255, 0, 0, 0.15); border-color: #FF0000; color: #FF0000; box-shadow: 0 0 20px rgba(255, 0, 0, 0.3); }
+        .btn-youtube:hover h3, .btn-youtube.scroll-active h3 { color: #FF0000; }
+        .btn-youtube:hover .arrow-icon, .btn-youtube.scroll-active .arrow-icon { color: #FF0000; transform: translateZ(20px) translateX(6px); opacity: 1; }
 
-        .btn-linkedin:hover .btn-icon-box, .btn-linkedin.touch-active .btn-icon-box { background: rgba(10, 102, 194, 0.15); border-color: #0A66C2; color: #0A66C2; box-shadow: 0 0 20px rgba(10, 102, 194, 0.3); }
-        .btn-linkedin:hover h3, .btn-linkedin.touch-active h3 { color: #0A66C2; text-shadow: 0 0 10px rgba(10, 102, 194, 0.3); }
-        .btn-linkedin:hover .arrow-icon, .btn-linkedin.touch-active .arrow-icon { color: #0A66C2; transform: translateZ(20px) translateX(6px); opacity: 1; }
-
-        .btn-whatsapp:hover .btn-icon-box, .btn-whatsapp.touch-active .btn-icon-box { background: rgba(37, 211, 102, 0.15); border-color: #25D366; color: #25D366; box-shadow: 0 0 20px rgba(37, 211, 102, 0.3); }
-        .btn-whatsapp:hover h3, .btn-whatsapp.touch-active h3 { color: #25D366; text-shadow: 0 0 10px rgba(37, 211, 102, 0.3); }
-        .btn-whatsapp:hover .arrow-icon, .btn-whatsapp.touch-active .arrow-icon { color: #25D366; transform: translateZ(20px) translateX(6px); opacity: 1; }
+        .btn-tiktok:hover .btn-icon-box, .btn-tiktok.scroll-active .btn-icon-box { background: rgba(0, 242, 254, 0.15); border-color: #00f2fe; color: #00f2fe; box-shadow: 0 0 20px rgba(0, 242, 254, 0.3); text-shadow: 2px 2px 0px #ff0050, -2px -2px 0px #00f2fe; }
+        .btn-tiktok:hover h3, .btn-tiktok.scroll-active h3 { color: #ffffff; text-shadow: 0 0 10px rgba(0, 242, 254, 0.5); }
+        .btn-tiktok:hover .arrow-icon, .btn-tiktok.scroll-active .arrow-icon { color: #00f2fe; transform: translateZ(20px) translateX(6px); opacity: 1; }
 
         /* Small Grid */
         .grid-icon {
@@ -312,62 +358,76 @@
             border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             box-shadow: inset 0 1px 1px rgba(255,255,255,0.05);
         }
-        .grid-item:hover .grid-icon, .grid-item.touch-active .grid-icon { transform: translateY(-4px) scale(1.05); }
-        .grid-vk:hover .grid-icon, .grid-vk.touch-active .grid-icon { background: rgba(0, 119, 255, 0.15); border-color: #0077FF; color: #0077FF; box-shadow: 0 8px 20px rgba(0, 119, 255, 0.25); }
-        .grid-facebook:hover .grid-icon, .grid-facebook.touch-active .grid-icon { background: rgba(24, 119, 242, 0.15); border-color: #1877F2; color: #1877F2; box-shadow: 0 8px 20px rgba(24, 119, 242, 0.25); }
-        .grid-twitch:hover .grid-icon, .grid-twitch.touch-active .grid-icon { background: rgba(145, 70, 255, 0.15); border-color: #9146FF; color: #9146FF; box-shadow: 0 8px 20px rgba(145, 70, 255, 0.25); }
-        .grid-discord:hover .grid-icon, .grid-discord.touch-active .grid-icon { background: rgba(88, 101, 242, 0.15); border-color: #5865F2; color: #5865F2; box-shadow: 0 8px 20px rgba(88, 101, 242, 0.25); }
-        .grid-email:hover .grid-icon, .grid-email.touch-active .grid-icon { background: rgba(255, 255, 255, 0.15); border-color: #ffffff; color: #ffffff; box-shadow: 0 8px 20px rgba(255, 255, 255, 0.25); }
+        .grid-item:hover .grid-icon, .grid-item.scroll-active .grid-icon { transform: translateY(-4px) scale(1.05); }
+        .grid-vk:hover .grid-icon, .grid-vk.scroll-active .grid-icon { background: rgba(0, 119, 255, 0.15); border-color: #0077FF; color: #0077FF; box-shadow: 0 8px 20px rgba(0, 119, 255, 0.25); }
+        .grid-facebook:hover .grid-icon, .grid-facebook.scroll-active .grid-icon { background: rgba(24, 119, 242, 0.15); border-color: #1877F2; color: #1877F2; box-shadow: 0 8px 20px rgba(24, 119, 242, 0.25); }
+        .grid-twitch:hover .grid-icon, .grid-twitch.scroll-active .grid-icon { background: rgba(145, 70, 255, 0.15); border-color: #9146FF; color: #9146FF; box-shadow: 0 8px 20px rgba(145, 70, 255, 0.25); }
+        .grid-discord:hover .grid-icon, .grid-discord.scroll-active .grid-icon { background: rgba(88, 101, 242, 0.15); border-color: #5865F2; color: #5865F2; box-shadow: 0 8px 20px rgba(88, 101, 242, 0.25); }
+        .grid-email:hover .grid-icon, .grid-email.scroll-active .grid-icon { background: rgba(212, 175, 55, 0.15); border-color: #D4AF37; color: #D4AF37; box-shadow: 0 8px 20px rgba(212, 175, 55, 0.25); }
+
+        /* --- TOAST NOTIFICATION --- */
+        #toast {
+            visibility: hidden; min-width: 250px; background-color: rgba(20, 20, 22, 0.95);
+            color: #fff; text-align: center; border-radius: 50px; padding: 12px 24px;
+            position: fixed; z-index: 1000; left: 50%; bottom: 30px; transform: translateX(-50%) translateY(20px);
+            font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500;
+            border: 1px solid rgba(212, 175, 55, 0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(212, 175, 55, 0.15);
+            opacity: 0; transition: opacity 0.4s, transform 0.4s, visibility 0.4s;
+            backdrop-filter: blur(10px);
+        }
+        #toast.show { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
 
         /* --- SCROLL REVEAL ANIMATIONS (JS triggered) --- */
         .reveal-item {
-            opacity: 0; transform: translateY(40px) scale(0.95); filter: blur(8px);
-            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform, opacity, filter;
+            opacity: 0; transform: translateY(30px) scale(0.98); filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform, opacity, filter;
         }
         .reveal-item.is-visible { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 
-        /* Initial load animations */
         .fade-in { 
-            opacity: 0; transform: translateY(25px) scale(0.98); filter: blur(12px);
-            animation: fadeInBlur 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+            opacity: 0; transform: translateY(20px); filter: blur(10px);
+            animation: fadeInBlur 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
         }
-        @keyframes fadeInBlur { to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } }
+        @keyframes fadeInBlur { to { opacity: 1; transform: translateY(0); filter: blur(0); } }
         
-        .d-1 { animation-delay: 0.1s; } .d-2 { animation-delay: 0.2s; } .d-3 { animation-delay: 0.3s; }
-        .d-4 { animation-delay: 0.4s; } .d-5 { animation-delay: 0.5s; } .d-6 { animation-delay: 0.6s; }
+        .d-1 { animation-delay: 0.1s; } 
+        .d-2 { animation-delay: 0.4s; } 
+        .d-3 { animation-delay: 0.9s; }
 
-        /* Diamond Pulse */
         .pulse-diamond { display: inline-block; animation: heartbeat 4s infinite cubic-bezier(0.4, 0, 0.2, 1); }
         @keyframes heartbeat {
             0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(212,175,55,0.4)); opacity: 0.8; }
             50% { transform: scale(1.15); filter: drop-shadow(0 0 15px rgba(212,175,55,1)); opacity: 1; }
         }
-
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #030303; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--gold-bright); }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center py-12 px-4 sm:px-6 lg:px-8 selection:bg-gold-base selection:text-black relative">
 
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="preloader-monogram">PM</div>
+        <div class="preloader-text">Markov Made</div>
+    </div>
+
     <!-- Ambient Cursor Orb -->
     <div class="ambient-cursor" id="ambient-cursor"></div>
+
+    <!-- Toast Notification for Copy to Clipboard -->
+    <div id="toast"><i class="fa-solid fa-check text-gold-base mr-2"></i> Скопировано в буфер</div>
 
     <!-- ULTRA LUXURY BACKGROUND LAYER -->
     <div class="bg-core"></div>
     <div class="bg-glow-1"></div>
     <div class="bg-glow-2"></div>
-    <div class="bg-glow-3"></div>
     <div class="bg-grid"></div>
     <div class="noise-overlay"></div>
 
-    <main class="w-full max-w-[560px] z-10 flex flex-col items-center relative">
+    <main class="w-full max-w-[560px] z-10 flex flex-col items-center relative opacity-0 transition-opacity duration-1000" id="main-content">
         
         <!-- HEADER -->
         <header class="flex flex-col items-center text-center mb-12 w-full mt-2">
             
-            <div class="fade-in d-1 mb-8">
+            <div class="fade-in d-1 mb-8 relative">
                 <div class="avatar-wrapper">
                     <div class="avatar-ring w-40 h-40 sm:w-48 sm:h-48 flex items-center justify-center">
                         <div class="w-full h-full rounded-full overflow-hidden bg-black border-[3px] border-[#0a0a0c]">
@@ -378,14 +438,18 @@
                 <div class="avatar-shadow"></div>
             </div>
             
-            <div class="fade-in d-2 relative inline-block mb-4">
-                <h1 class="text-4xl sm:text-[3.5rem] lg:text-[4rem] font-serif font-bold text-white tracking-widest uppercase flex flex-col sm:flex-row items-center gap-3 drop-shadow-2xl">
+            <div class="fade-in d-2 flex flex-col items-center mb-4 w-full">
+                <!-- Name fixed, JS splitting removed, forced to 1 line, "made" correctly positioned -->
+                <h1 class="relative text-3xl sm:text-[3.5rem] lg:text-[4rem] font-serif text-white tracking-widest uppercase flex flex-row items-center justify-center gap-2 sm:gap-3 drop-shadow-2xl whitespace-nowrap w-full">
                     <span class="font-medium text-zinc-100">Pavel</span> 
                     <span class="text-gradient-gold font-bold">Markov</span>
+                    <span class="absolute -bottom-5 right-0 sm:-bottom-6 sm:-right-6 text-[2.2rem] sm:text-[3rem] signature-made transform -rotate-12 z-10 pointer-events-none opacity-90 lowercase" style="letter-spacing: normal;">made</span>
                 </h1>
-                <div class="absolute -bottom-6 -right-2 sm:-bottom-8 sm:-right-6 text-[2.5rem] sm:text-[3.5rem] signature-made transform -rotate-6 z-10">
-                    made
-                </div>
+                
+                <!-- USP Slogan - Niche & Specific - Forced on 1 line -->
+                <h2 class="text-[8px] sm:text-[11px] font-semibold tracking-[0.2em] sm:tracking-[0.25em] uppercase text-zinc-400 mt-5 sm:mt-6 mb-2 reveal-usp whitespace-nowrap text-center w-full">
+                    ФИТНЕС-ИНЖЕНЕРИЯ <span class="text-gold-base mx-1 sm:mx-1.5 opacity-60">•</span> БИОХАКИНГ ПИТАНИЯ <span class="text-gold-base mx-1 sm:mx-1.5 opacity-60">•</span> ЭЛИТНОЕ МЕНТОРСТВО
+                </h2>
             </div>
             
             <div class="fade-in d-3 mt-8 flex flex-col items-center w-full">
@@ -404,72 +468,72 @@
         <!-- GLOBAL EXPERTISE SECTION -->
         <section class="w-full flex flex-col gap-5 mb-16">
             
-            <div class="reveal-item expertise-header-box text-center">
+            <div class="reveal-item expertise-header-box text-center overflow-hidden">
                 <div class="inline-flex items-center justify-center gap-2 mb-3">
                     <span class="h-px w-4 bg-gold-base/50"></span>
                     <span class="text-gold-base text-[10px] sm:text-xs tracking-[0.4em] uppercase font-bold text-shadow-sm">Глобальная Экспертиза</span>
                     <span class="h-px w-4 bg-gold-base/50"></span>
                 </div>
+                <!-- Fixed Text (Parallax removed) -->
                 <h2 class="text-2xl sm:text-[28px] font-serif font-bold text-white mb-4 tracking-wide text-shadow-lg">Архитектура Трансформации</h2>
                 
-                <p class="text-[14px] sm:text-[15px] text-zinc-300 font-light leading-relaxed max-w-md mx-auto relative z-10">
-                    Сферы, где мой подход базируется на <strong class="text-white font-medium">профильном образовании</strong> и <strong class="text-white font-medium">колоссальном жизненном опыте</strong>. Я гарантирую железобетонные трансформации, подтвержденные реальными кейсами и выдающимися результатами моих <strong class="text-gold-light font-medium border-b border-gold-base/30 pb-0.5">подопечных</strong>.
+                <!-- Professional Copywriting Update -->
+                <p class="text-[14px] sm:text-[15px] text-zinc-300 font-normal leading-relaxed max-w-md mx-auto relative z-10">
+                    Фундамент, на котором мы строим вашу <strong class="text-white font-semibold">новую личность</strong>. Я гарантирую железобетонные трансформации, подкрепленные профильным образованием и выдающимися результатами моих <strong class="text-gold-light font-semibold border-b border-gold-base/30 pb-0.5">подопечных</strong>.
                 </p>
-                <!-- Раздражающая точка удалена! Стык абсолютно чистый. -->
             </div>
             
-            <!-- FITNESS (Ruby) -->
-            <div class="reveal-item expertise-card touchable tilt-element theme-fitness p-7 sm:p-8 relative z-10">
+            <!-- FITNESS -->
+            <div class="reveal-item expertise-card interactive-block tilt-element theme-fitness p-7 sm:p-8 relative z-10">
                 <div class="flex items-center justify-between mb-6 pb-5 border-b border-white/5">
                     <div>
-                        <p class="text-[10px] uppercase tracking-[0.25em] text-zinc-500 mb-1.5 font-medium">Тело & Здоровье</p>
+                        <p class="text-[10px] uppercase tracking-[0.25em] text-zinc-500 mb-1.5 font-bold">Тело & Здоровье</p>
                         <h3 class="font-serif text-[24px] sm:text-[28px] font-bold text-white tracking-wide leading-tight theme-title transition-colors">Фитнес-Инженерия</h3>
                     </div>
                     <div class="card-icon-wrapper w-14 h-14 rounded-xl flex items-center justify-center text-2xl shrink-0">
-                        <i class="fa-solid fa-dumbbell"></i>
+                        <i class="fa-solid fa-dumbbell anim-dumbbell"></i>
                     </div>
                 </div>
-                <ul class="expertise-list text-[14px] sm:text-[15px] text-zinc-300">
-                    <!-- Замена галочек на смысловые стикеры/иконки -->
-                    <li><i class="fa-solid fa-bolt"></i> <strong class="text-white font-medium">Эталонная форма.</strong> Набор сухой мышечной массы и экстремальная «сушка» без откатов.</li>
-                    <li><i class="fa-solid fa-medal"></i> <strong class="text-white font-medium">Практический опыт.</strong> КМС по бодибилдингу и кикбоксингу. Призер международных турниров.</li>
-                    <li><i class="fa-solid fa-microscope"></i> <strong class="text-white font-medium">Научная база.</strong> Дипломированный специалист («Профессионалы фитнеса», 2019) — результат без вреда для здоровья.</li>
+                <ul class="expertise-list text-[14px] sm:text-[15px] text-zinc-300 font-normal">
+                    <li><i class="fa-solid fa-bolt"></i> <strong class="text-white font-semibold">Эталонная форма.</strong> Набор сухой мышечной массы и экстремальная «сушка» без откатов.</li>
+                    <li><i class="fa-solid fa-medal"></i> <strong class="text-white font-semibold">Практический опыт.</strong> КМС по бодибилдингу и кикбоксингу. Призер международных турниров.</li>
+                    <li><i class="fa-solid fa-microscope"></i> <strong class="text-white font-semibold">Научная база.</strong> Дипломированный специалист («Профессионалы фитнеса», 2019) — результат без вреда для здоровья.</li>
                 </ul>
             </div>
 
-            <!-- NUTRITION (Emerald) -->
-            <div class="reveal-item expertise-card touchable tilt-element theme-nutrition p-7 sm:p-8 relative z-10">
+            <!-- NUTRITION -->
+            <div class="reveal-item expertise-card interactive-block tilt-element theme-nutrition p-7 sm:p-8 relative z-10">
                 <div class="flex items-center justify-between mb-6 pb-5 border-b border-white/5">
                     <div>
-                        <p class="text-[10px] uppercase tracking-[0.25em] text-zinc-500 mb-1.5 font-medium">Топливо & Энергия</p>
+                        <p class="text-[10px] uppercase tracking-[0.25em] text-zinc-500 mb-1.5 font-bold">Топливо & Энергия</p>
                         <h3 class="font-serif text-[24px] sm:text-[28px] font-bold text-white tracking-wide leading-tight theme-title transition-colors">Биохакинг Питания</h3>
                     </div>
                     <div class="card-icon-wrapper w-14 h-14 rounded-xl flex items-center justify-center text-2xl shrink-0">
-                        <i class="fa-solid fa-dna"></i>
+                        <i class="fa-solid fa-dna anim-dna"></i>
                     </div>
                 </div>
-                <ul class="expertise-list text-[14px] sm:text-[15px] text-zinc-300">
-                    <li><i class="fa-solid fa-fire-flame-curved"></i> <strong class="text-white font-medium">Еда как ресурс.</strong> Вывожу энергию на максимум, настраиваю идеальное пищеварение.</li>
-                    <li><i class="fa-solid fa-shield-halved"></i> <strong class="text-white font-medium">Интегративный метод.</strong> Эксперт-нутрициолог (МИИН, 2022). Работаю с первопричинами, а не маскирую симптомы.</li>
-                    <li><i class="fa-solid fa-chart-pie"></i> <strong class="text-white font-medium">Композиция тела.</strong> Персональный расчет стратегии под вашу генетику и сумасшедший график.</li>
+                <ul class="expertise-list text-[14px] sm:text-[15px] text-zinc-300 font-normal">
+                    <li><i class="fa-solid fa-fire-flame-curved"></i> <strong class="text-white font-semibold">Еда как ресурс.</strong> Вывожу энергию на максимум, настраиваю идеальное пищеварение.</li>
+                    <li><i class="fa-solid fa-shield-halved"></i> <strong class="text-white font-semibold">Интегративный метод.</strong> Эксперт-нутрициолог (МИИН, 2022). Работаю с первопричинами, а не маскирую симптомы.</li>
+                    <li><i class="fa-solid fa-chart-pie"></i> <strong class="text-white font-semibold">Композиция тела.</strong> Персональный расчет стратегии под вашу генетику и сумасшедший график.</li>
                 </ul>
             </div>
 
-            <!-- MENTORSHIP (Sapphire) -->
-            <div class="reveal-item expertise-card touchable tilt-element theme-mental p-7 sm:p-8 relative z-10">
+            <!-- MENTORSHIP -->
+            <div class="reveal-item expertise-card interactive-block tilt-element theme-mental p-7 sm:p-8 relative z-10">
                 <div class="flex items-center justify-between mb-6 pb-5 border-b border-white/5">
                     <div>
-                        <p class="text-[10px] uppercase tracking-[0.25em] text-zinc-500 mb-1.5 font-medium">Разум & Масштаб</p>
+                        <p class="text-[10px] uppercase tracking-[0.25em] text-zinc-500 mb-1.5 font-bold">Разум & Масштаб</p>
                         <h3 class="font-serif text-[24px] sm:text-[28px] font-bold text-white tracking-wide leading-tight theme-title transition-colors">Перепрошивка Мышления</h3>
                     </div>
                     <div class="card-icon-wrapper w-14 h-14 rounded-xl flex items-center justify-center text-2xl shrink-0">
-                        <i class="fa-solid fa-chess-knight"></i>
+                        <i class="fa-solid fa-chess-knight anim-chess"></i>
                     </div>
                 </div>
-                <ul class="expertise-list text-[14px] sm:text-[15px] text-zinc-300">
-                    <li><i class="fa-solid fa-hammer"></i> <strong class="text-white font-medium">Разрушение барьеров.</strong> Поиск выходов из карьерных кризисов и системных тупиков.</li>
-                    <li><i class="fa-solid fa-link-slash"></i> <strong class="text-white font-medium">Психология победителя.</strong> Личный успешный опыт уничтожения деструктивных привычек.</li>
-                    <li><i class="fa-solid fa-globe"></i> <strong class="text-white font-medium">Масштаб видения.</strong> Международный опыт. Синергия мощного тела и абсолютно ясного разума.</li>
+                <ul class="expertise-list text-[14px] sm:text-[15px] text-zinc-300 font-normal">
+                    <li><i class="fa-solid fa-hammer"></i> <strong class="text-white font-semibold">Разрушение барьеров.</strong> Поиск выходов из карьерных кризисов и системных тупиков.</li>
+                    <li><i class="fa-solid fa-link-slash"></i> <strong class="text-white font-semibold">Психология победителя.</strong> Личный успешный опыт уничтожения деструктивных привычек.</li>
+                    <li><i class="fa-solid fa-globe"></i> <strong class="text-white font-semibold">Масштаб видения.</strong> Международный опыт. Синергия мощного тела и абсолютно ясного разума.</li>
                 </ul>
             </div>
 
@@ -477,114 +541,130 @@
 
         <!-- TOP TIER SOCIAL LINKS -->
         <section class="w-full flex flex-col gap-4 mb-16">
-            <h2 class="reveal-item text-[11px] font-medium uppercase tracking-[0.25em] text-zinc-500 text-center mb-6 flex items-center justify-center gap-4">
-                <span class="h-px w-10 bg-zinc-800"></span>
-                Топовые Ресурсы
-                <span class="h-px w-10 bg-zinc-800"></span>
-            </h2>
             
-            <a href="https://castefeudal.github.io/markovmade/" target="_blank" class="reveal-item elite-btn touchable tilt-element btn-kasta group">
+            <!-- SECTION 1: ЭКОСИСТЕМА -->
+            <h2 class="reveal-item text-[11px] font-bold uppercase tracking-[0.25em] text-zinc-500 text-center mb-4 mt-2 flex items-center justify-center gap-4">
+                <span class="h-px w-8 bg-zinc-800"></span>
+                Экосистема
+                <span class="h-px w-8 bg-zinc-800"></span>
+            </h2>
+
+            <a href="https://t.me/caste_feudal" target="_blank" class="reveal-item elite-btn interactive-block tilt-element btn-kasta group">
                 <div class="flex items-center gap-5 w-full btn-text-content">
                     <div class="btn-icon-box text-xl">
-                        <i class="fa-solid fa-chess-knight"></i>
+                        <i class="fa-solid fa-chess-rook"></i>
                     </div>
                     <div class="text-left flex-grow">
-                        <h3 class="font-semibold text-[17px] text-zinc-200 tracking-wide transition-colors">Каста Феодалов</h3>
-                        <p class="text-[13px] text-zinc-500 font-light mt-0.5">Главный проект / Закрытый клуб</p>
+                        <h3 class="font-semibold text-[17px] text-zinc-100 tracking-wide transition-colors">Каста Феодалов</h3>
+                        <p class="text-[13px] text-zinc-400 font-normal mt-0.5">Главный проект / Закрытый клуб</p>
                     </div>
                     <i class="fa-solid fa-arrow-right text-zinc-600 arrow-icon"></i>
                 </div>
             </a>
 
-            <a href="#" class="reveal-item elite-btn touchable tilt-element btn-telegram group">
+            <!-- Social Proof / Cases Block -->
+            <a href="https://castefeudal.github.io/markovmade/#services" target="_blank" class="reveal-item elite-btn interactive-block tilt-element btn-cases group border-white/10 bg-white/[0.02]">
+                <div class="flex items-center gap-5 w-full btn-text-content">
+                    <div class="btn-icon-box text-xl text-zinc-300 border-zinc-500/30">
+                        <i class="fa-solid fa-bolt text-gold-light"></i>
+                    </div>
+                    <div class="text-left flex-grow">
+                        <h3 class="font-semibold text-[17px] text-zinc-100 tracking-wide transition-colors">Кейсы & Результаты</h3>
+                        <p class="text-[13px] text-zinc-400 font-normal mt-0.5">До и После / Железобетонные пруфы</p>
+                    </div>
+                    <i class="fa-solid fa-arrow-right text-zinc-600 arrow-icon"></i>
+                </div>
+            </a>
+
+            <a href="https://t.me/markovmadebot" target="_blank" class="reveal-item elite-btn interactive-block tilt-element btn-bot group">
                 <div class="flex items-center gap-5 w-full btn-text-content">
                     <div class="btn-icon-box text-xl">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div class="text-left flex-grow">
+                        <h3 class="font-semibold text-[17px] text-zinc-100 tracking-wide transition-colors">Markov Made Bot</h3>
+                        <p class="text-[13px] text-zinc-400 font-normal mt-0.5">Интеграция & Системный доступ</p>
+                    </div>
+                    <i class="fa-solid fa-arrow-right text-zinc-600 arrow-icon"></i>
+                </div>
+            </a>
+
+            <!-- SECTION 2: СВЯЗЬ -->
+            <h2 class="reveal-item text-[11px] font-bold uppercase tracking-[0.25em] text-zinc-500 text-center mb-4 mt-6 flex items-center justify-center gap-4">
+                <span class="h-px w-8 bg-zinc-800"></span>
+                Личная Связь
+                <span class="h-px w-8 bg-zinc-800"></span>
+            </h2>
+
+            <a href="https://t.me/markovmade" target="_blank" class="reveal-item elite-btn interactive-block tilt-element btn-telegram group border-gold-base/40 bg-gold-base/[0.05]">
+                <div class="flex items-center gap-5 w-full btn-text-content">
+                    <div class="btn-icon-box !text-gold-base !border-gold-base/30 !bg-gold-base/10 text-xl shadow-[0_0_15px_rgba(212,175,55,0.2)]">
                         <i class="fa-brands fa-telegram"></i>
                     </div>
                     <div class="text-left flex-grow">
-                        <h3 class="font-semibold text-[17px] text-zinc-200 tracking-wide transition-colors">Telegram</h3>
-                        <p class="text-[13px] text-zinc-500 font-light mt-0.5">Личный канал & Инсайты</p>
+                        <h3 class="font-bold text-[18px] text-gold-base tracking-wide transition-colors text-shadow-sm">Telegram</h3>
+                        <p class="text-[13px] text-gold-base/70 font-medium mt-0.5">Прямая связь & Запись на менторство</p>
+                    </div>
+                    <i class="fa-solid fa-arrow-right text-gold-base arrow-icon opacity-80"></i>
+                </div>
+            </a>
+
+            <a href="https://wa.me/79819722516" target="_blank" class="reveal-item elite-btn interactive-block tilt-element btn-whatsapp group">
+                <div class="flex items-center gap-5 w-full btn-text-content">
+                    <div class="btn-icon-box text-xl">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                    <div class="text-left flex-grow">
+                        <h3 class="font-semibold text-[17px] text-zinc-100 tracking-wide transition-colors">WhatsApp</h3>
+                        <p class="text-[13px] text-zinc-400 font-normal mt-0.5">Личный контакт / Мессенджер</p>
                     </div>
                     <i class="fa-solid fa-arrow-right text-zinc-600 arrow-icon"></i>
                 </div>
             </a>
 
-            <a href="#" class="reveal-item elite-btn touchable tilt-element btn-instagram group">
+            <!-- SECTION 3: МЕДИА -->
+            <h2 class="reveal-item text-[11px] font-bold uppercase tracking-[0.25em] text-zinc-500 text-center mb-4 mt-6 flex items-center justify-center gap-4">
+                <span class="h-px w-8 bg-zinc-800"></span>
+                Медиа Ресурсы
+                <span class="h-px w-8 bg-zinc-800"></span>
+            </h2>
+
+            <a href="https://www.instagram.com/markovmafia" target="_blank" class="reveal-item elite-btn interactive-block tilt-element btn-instagram group">
                 <div class="flex items-center gap-5 w-full btn-text-content">
                     <div class="btn-icon-box text-xl">
                         <i class="fa-brands fa-instagram"></i>
                     </div>
                     <div class="text-left flex-grow">
-                        <h3 class="font-semibold text-[17px] text-zinc-200 tracking-wide transition-colors">Instagram</h3>
-                        <p class="text-[13px] text-zinc-500 font-light mt-0.5">Лайфстайл & Эстетика</p>
+                        <h3 class="font-semibold text-[17px] text-zinc-100 tracking-wide transition-colors">Instagram</h3>
+                        <p class="text-[13px] text-zinc-400 font-normal mt-0.5">Лайфстайл & Эстетика</p>
                     </div>
                     <i class="fa-solid fa-arrow-right text-zinc-600 arrow-icon"></i>
                 </div>
             </a>
 
-            <a href="#" class="reveal-item elite-btn touchable tilt-element btn-youtube group">
+            <a href="https://www.youtube.com/@YoungAthleteMarko" target="_blank" class="reveal-item elite-btn interactive-block tilt-element btn-youtube group">
                 <div class="flex items-center gap-5 w-full btn-text-content">
                     <div class="btn-icon-box text-xl">
                         <i class="fa-brands fa-youtube"></i>
                     </div>
                     <div class="text-left flex-grow">
-                        <h3 class="font-semibold text-[17px] text-zinc-200 tracking-wide transition-colors">YouTube</h3>
-                        <p class="text-[13px] text-zinc-500 font-light mt-0.5">Глубокие разборы & Подкасты</p>
+                        <h3 class="font-semibold text-[17px] text-zinc-100 tracking-wide transition-colors">YouTube</h3>
+                        <p class="text-[13px] text-zinc-400 font-normal mt-0.5">Глубокие разборы & Подкасты</p>
                     </div>
                     <i class="fa-solid fa-arrow-right text-zinc-600 arrow-icon"></i>
                 </div>
             </a>
 
-            <a href="#" class="reveal-item elite-btn touchable tilt-element btn-tiktok group">
+            <a href="https://www.tiktok.com/@feudalcaste" target="_blank" class="reveal-item elite-btn interactive-block tilt-element btn-tiktok group">
                 <div class="flex items-center gap-5 w-full btn-text-content">
                     <div class="btn-icon-box text-xl">
                         <i class="fa-brands fa-tiktok"></i>
                     </div>
                     <div class="text-left flex-grow">
-                        <h3 class="font-semibold text-[17px] text-zinc-200 tracking-wide transition-colors">TikTok</h3>
-                        <p class="text-[13px] text-zinc-500 font-light mt-0.5">Тренды & Короткий формат</p>
+                        <h3 class="font-semibold text-[17px] text-zinc-100 tracking-wide transition-colors">TikTok</h3>
+                        <p class="text-[13px] text-zinc-400 font-normal mt-0.5">Тренды & Короткий формат</p>
                     </div>
                     <i class="fa-solid fa-arrow-right text-zinc-600 arrow-icon"></i>
-                </div>
-            </a>
-
-            <a href="#" class="reveal-item elite-btn touchable tilt-element btn-x group">
-                <div class="flex items-center gap-5 w-full btn-text-content">
-                    <div class="btn-icon-box text-xl">
-                        <i class="fa-brands fa-x-twitter"></i>
-                    </div>
-                    <div class="text-left flex-grow">
-                        <h3 class="font-semibold text-[17px] text-zinc-200 tracking-wide transition-colors">X (Twitter)</h3>
-                        <p class="text-[13px] text-zinc-500 font-light mt-0.5">Международный нетворкинг</p>
-                    </div>
-                    <i class="fa-solid fa-arrow-right text-zinc-600 arrow-icon"></i>
-                </div>
-            </a>
-
-            <a href="#" class="reveal-item elite-btn touchable tilt-element btn-linkedin group">
-                <div class="flex items-center gap-5 w-full btn-text-content">
-                    <div class="btn-icon-box text-xl">
-                        <i class="fa-brands fa-linkedin-in"></i>
-                    </div>
-                    <div class="text-left flex-grow">
-                        <h3 class="font-semibold text-[17px] text-zinc-200 tracking-wide transition-colors">LinkedIn</h3>
-                        <p class="text-[13px] text-zinc-500 font-light mt-0.5">Профессиональные связи</p>
-                    </div>
-                    <i class="fa-solid fa-arrow-right text-zinc-600 arrow-icon"></i>
-                </div>
-            </a>
-
-            <!-- Highlighted Contact Button -->
-            <a href="#" class="reveal-item elite-btn touchable tilt-element btn-whatsapp group border-gold-base/40 bg-gold-base/[0.05] mt-3">
-                <div class="flex items-center gap-5 w-full btn-text-content">
-                    <div class="btn-icon-box !text-gold-base !border-gold-base/30 !bg-gold-base/10 text-xl shadow-[0_0_15px_rgba(212,175,55,0.2)]">
-                        <i class="fa-brands fa-whatsapp"></i>
-                    </div>
-                    <div class="text-left flex-grow">
-                        <h3 class="font-bold text-[18px] text-gold-base tracking-wide transition-colors text-shadow-sm">Связь лично</h3>
-                        <p class="text-[13px] text-gold-base/70 font-medium mt-0.5">Запись на менторство</p>
-                    </div>
-                    <i class="fa-solid fa-arrow-right text-gold-base arrow-icon opacity-80"></i>
                 </div>
             </a>
 
@@ -592,34 +672,35 @@
 
         <!-- Niche Socials Grid -->
         <section class="w-full reveal-item mb-12">
-            <h2 class="text-[11px] font-medium uppercase tracking-[0.25em] text-zinc-600 text-center mb-6 flex items-center justify-center gap-4">
+            <h2 class="text-[11px] font-bold uppercase tracking-[0.25em] text-zinc-600 text-center mb-6 flex items-center justify-center gap-4">
                 <span class="h-px w-6 bg-zinc-800"></span>
                 Дополнительно
                 <span class="h-px w-6 bg-zinc-800"></span>
             </h2>
             
             <div class="flex justify-center gap-4 sm:gap-6 flex-wrap">
-                <a href="#" class="grid-item grid-vk touchable flex flex-col items-center group" title="VKontakte">
+                <a href="https://vk.com/markovmafia" target="_blank" class="grid-item grid-vk interactive-block flex flex-col items-center group" title="VKontakte">
                     <div class="grid-icon w-14 h-14 rounded-xl flex items-center justify-center text-zinc-400 text-xl">
                         <i class="fa-brands fa-vk"></i>
                     </div>
                 </a>
-                <a href="#" class="grid-item grid-facebook touchable flex flex-col items-center group" title="Facebook">
+                <a href="#" class="grid-item grid-facebook interactive-block flex flex-col items-center group" title="Facebook">
                     <div class="grid-icon w-14 h-14 rounded-xl flex items-center justify-center text-zinc-400 text-xl">
                         <i class="fa-brands fa-facebook-f"></i>
                     </div>
                 </a>
-                <a href="#" class="grid-item grid-twitch touchable flex flex-col items-center group" title="Twitch">
+                <a href="#" class="grid-item grid-twitch interactive-block flex flex-col items-center group" title="Twitch">
                     <div class="grid-icon w-14 h-14 rounded-xl flex items-center justify-center text-zinc-400 text-xl">
                         <i class="fa-brands fa-twitch"></i>
                     </div>
                 </a>
-                <a href="#" class="grid-item grid-discord touchable flex flex-col items-center group" title="Discord">
+                <a href="#" class="grid-item grid-discord interactive-block flex flex-col items-center group" title="Discord">
                     <div class="grid-icon w-14 h-14 rounded-xl flex items-center justify-center text-zinc-400 text-xl">
                         <i class="fa-brands fa-discord"></i>
                     </div>
                 </a>
-                <a href="#" class="grid-item grid-email touchable flex flex-col items-center group" title="Email">
+                <!-- Email Copy Logic injected here -->
+                <a href="#" onclick="copyEmail(event)" class="grid-item grid-email interactive-block flex flex-col items-center group" title="Копировать Email">
                     <div class="grid-icon w-14 h-14 rounded-xl flex items-center justify-center text-zinc-400 text-xl">
                         <i class="fa-solid fa-envelope"></i>
                     </div>
@@ -643,17 +724,115 @@
 
     </main>
 
-    <!-- JAVASCRIPT ENGINE FOR 11/10 INTERACTIVITY & MOBILE SUPPORT -->
+    <!-- JAVASCRIPT ENGINE -->
     <script>
+        // 1. SOUND FEEDBACK (Web Audio API - no external files needed)
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new AudioContext();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function playHoverSound() {
+            if (!audioCtx || audioCtx.state !== 'running') return;
+            try {
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                osc.type = 'sine';
+                // Soft, elegant tick sound
+                osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.04);
+                gainNode.gain.setValueAtTime(0.015, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.05);
+            } catch (e) { console.warn("Audio play blocked", e); }
+        }
+
+        // Initialize audio on first user gesture
+        document.addEventListener('click', initAudio, { once: true });
+        document.addEventListener('touchstart', initAudio, { once: true });
+
+
+        // 2. SMOOTH SCROLL (Lenis)
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+            infinite: false,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+
+        // 3. PRELOADER
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            const mainContent = document.getElementById('main-content');
+
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                mainContent.style.opacity = '1';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 600);
+            }, 1000);
+        });
+
+        // 5. COPY EMAIL TO CLIPBOARD LOGIC
+        function copyEmail(e) {
+            e.preventDefault();
+            const email = 'castefeudal@gmail.com';
+            
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(email).then(() => showToast());
+            } else {
+                const textArea = document.createElement("textarea");
+                textArea.value = email;
+                textArea.style.position = "fixed";
+                textArea.style.left = "-999999px";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showToast();
+                } catch (err) {
+                    console.error('Fallback: Oops, unable to copy', err);
+                }
+                document.body.removeChild(textArea);
+            }
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 3000);
+        }
+
+        // 6. SCROLL REVEAL OBSERVER & SMART MOBILE INTERACTIONS
         document.addEventListener('DOMContentLoaded', () => {
             
-            // 1. SCROLL REVEAL OBSERVER
+            // Fade-in Reveal Observer
             const revealElements = document.querySelectorAll('.reveal-item:not(.is-visible)');
-            
-            const revealOptions = {
-                threshold: 0.1,
-                rootMargin: "0px 0px -50px 0px" 
-            };
+            const revealOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
 
             const revealOnScroll = new IntersectionObserver(function(entries, observer) {
                 entries.forEach(entry => {
@@ -665,28 +844,34 @@
 
             revealElements.forEach(el => revealOnScroll.observe(el));
 
-            // 2. MOBILE TOUCH HIGHLIGHTS & DESKTOP 3D TILT
-            const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+            // Check for Mobile Device
+            const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || window.innerWidth <= 768;
             
-            // Touch interactions for mobile (to simulate hover glow)
-            const touchables = document.querySelectorAll('.touchable');
-            touchables.forEach(el => {
-                el.addEventListener('touchstart', () => {
-                    el.classList.add('touch-active');
-                }, {passive: true});
-                
-                el.addEventListener('touchend', () => {
-                    setTimeout(() => el.classList.remove('touch-active'), 150); // slight delay for visual satisfaction
-                });
-                
-                el.addEventListener('touchcancel', () => {
-                    el.classList.remove('touch-active');
-                });
-            });
+            if (isTouchDevice) {
+                // Fix "Sticky" mobile highlight: Reduced margin to -20%
+                const highlightOptions = {
+                    root: null,
+                    rootMargin: "-20% 0px -20% 0px",
+                    threshold: 0
+                };
 
-            // 3D Tilt and custom cursor (Desktop Only)
-            if (!isTouchDevice) {
+                const highlightObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('scroll-active');
+                        } else {
+                            entry.target.classList.remove('scroll-active');
+                        }
+                    });
+                }, highlightOptions);
+
+                const interactiveBlocks = document.querySelectorAll('.interactive-block');
+                interactiveBlocks.forEach(el => highlightObserver.observe(el));
+            } else {
+                // 3D TILT И УМНЫЙ КУРСОР ДЛЯ ПК
                 const tiltElements = document.querySelectorAll('.tilt-element');
+                const cursor = document.getElementById('ambient-cursor');
+                cursor.style.display = 'block';
                 
                 tiltElements.forEach(el => {
                     el.addEventListener('mousemove', (e) => {
@@ -709,9 +894,21 @@
                     });
                 });
 
-                // Ambient Cursor
-                const cursor = document.getElementById('ambient-cursor');
-                cursor.style.display = 'block';
+                // Smart Cursor & Audio Feedback
+                const links = document.querySelectorAll('a, button, .interactive-block');
+                links.forEach(link => {
+                    link.addEventListener('mouseenter', () => {
+                        cursor.style.width = '80px';
+                        cursor.style.height = '80px';
+                        cursor.style.background = 'radial-gradient(circle, rgba(212, 175, 55, 0.4) 0%, transparent 70%)';
+                        playHoverSound();
+                    });
+                    link.addEventListener('mouseleave', () => {
+                        cursor.style.width = '400px';
+                        cursor.style.height = '400px';
+                        cursor.style.background = 'radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, transparent 60%)';
+                    });
+                });
 
                 document.addEventListener('mousemove', (e) => {
                     cursor.style.left = e.clientX + 'px';
