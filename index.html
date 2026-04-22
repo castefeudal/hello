@@ -467,6 +467,17 @@
             0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(230, 165, 25, 0.4)); opacity: 0.8; }
             50% { transform: scale(1.15); filter: drop-shadow(0 0 15px rgba(230, 165, 25, 1)); opacity: 1; }
         }
+
+        /* --- FOOTER ANIMATIONS --- */
+        .soul-pulse {
+            animation: soulPulseAnim 3.5s infinite;
+            will-change: opacity, text-shadow, color;
+        }
+        @keyframes soulPulseAnim {
+            0% { opacity: 0.4; text-shadow: 0 0 0 transparent; color: #a1a1aa; }
+            12% { opacity: 1; text-shadow: 0 0 15px rgba(230, 165, 25, 0.8), 0 0 5px rgba(255, 255, 255, 0.4); color: #fff; }
+            100% { opacity: 0.4; text-shadow: 0 0 0 transparent; color: #a1a1aa; }
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center py-12 px-4 sm:px-6 lg:px-8 selection:bg-gold-base selection:text-black relative">
@@ -750,27 +761,27 @@
             
             <div class="flex justify-center gap-4 sm:gap-6 flex-wrap">
                 <!-- Staggered Delays for Grid Items -->
-                <a href="https://vk.com/markovmafia" target="_blank" rel="noopener noreferrer" class="grid-item grid-vk interactive-block flex flex-col items-center group reveal-item" style="transition-delay: 0.1s;" aria-label="Профиль VK">
+                <a href="https://vk.com/markovmafia" target="_blank" rel="noopener noreferrer" class="grid-item grid-vk flex flex-col items-center group reveal-item" style="transition-delay: 0.1s;" aria-label="Профиль VK">
                     <div class="grid-icon w-14 h-14 rounded-xl flex items-center justify-center text-zinc-400 text-xl">
                         <i class="fa-brands fa-vk" aria-hidden="true"></i>
                     </div>
                 </a>
-                <a href="#" class="grid-item grid-facebook interactive-block flex flex-col items-center group reveal-item" style="transition-delay: 0.2s;" aria-label="Профиль Facebook">
+                <a href="#" class="grid-item grid-facebook flex flex-col items-center group reveal-item" style="transition-delay: 0.2s;" aria-label="Профиль Facebook">
                     <div class="grid-icon w-14 h-14 rounded-xl flex items-center justify-center text-zinc-400 text-xl">
                         <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
                     </div>
                 </a>
-                <a href="#" class="grid-item grid-twitch interactive-block flex flex-col items-center group reveal-item" style="transition-delay: 0.3s;" aria-label="Канал Twitch">
+                <a href="#" class="grid-item grid-twitch flex flex-col items-center group reveal-item" style="transition-delay: 0.3s;" aria-label="Канал Twitch">
                     <div class="grid-icon w-14 h-14 rounded-xl flex items-center justify-center text-zinc-400 text-xl">
                         <i class="fa-brands fa-twitch" aria-hidden="true"></i>
                     </div>
                 </a>
-                <a href="#" class="grid-item grid-discord interactive-block flex flex-col items-center group reveal-item" style="transition-delay: 0.4s;" aria-label="Сервер Discord">
+                <a href="#" class="grid-item grid-discord flex flex-col items-center group reveal-item" style="transition-delay: 0.4s;" aria-label="Сервер Discord">
                     <div class="grid-icon w-14 h-14 rounded-xl flex items-center justify-center text-zinc-400 text-xl">
                         <i class="fa-brands fa-discord" aria-hidden="true"></i>
                     </div>
                 </a>
-                <a href="#" onclick="copyEmail(event)" class="grid-item grid-email interactive-block flex flex-col items-center group reveal-item" style="transition-delay: 0.5s;" aria-label="Скопировать Email">
+                <a href="#" onclick="copyEmail(event)" class="grid-item grid-email flex flex-col items-center group reveal-item" style="transition-delay: 0.5s;" aria-label="Скопировать Email">
                     <div class="grid-icon w-14 h-14 rounded-xl flex items-center justify-center text-zinc-400 text-xl">
                         <i class="fa-solid fa-envelope" aria-hidden="true"></i>
                     </div>
@@ -786,9 +797,9 @@
                 <div class="h-px w-20 bg-gradient-to-l from-transparent to-gold-base/50"></div>
             </div>
             
-            <p class="text-[13px] text-zinc-500 font-semibold tracking-widest uppercase">
-                &copy; <script>document.write(new Date().getFullYear())</script> Pavel Markov.<br>
-                <span class="text-zinc-600 font-normal mt-1 inline-block">Identity & Premium Mentorship.</span>
+            <p class="text-[13px] text-zinc-500 font-semibold tracking-widest uppercase leading-relaxed">
+                &copy; <span class="text-gradient-gold font-bold">2026 MARKOVMADE PRODUCTION</span><br>
+                <span class="soul-pulse font-bold mt-1.5 inline-block tracking-[0.15em]">ОТ ДУШИ, ДУШЕВНО, В ДУШУ.</span>
             </p>
         </footer>
 
