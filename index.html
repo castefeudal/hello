@@ -192,8 +192,11 @@
         @keyframes goldShine { to { background-position: 200% center; } }
 
         .signature-made {
-            font-family: 'Great Vibes', cursive; color: var(--gold-bright);
-            text-shadow: 0 2px 15px rgba(230, 165, 25, 0.4), 0 0 30px rgba(230, 165, 25, 0.2);
+            font-family: 'Great Vibes', cursive;
+            background: var(--gold-gradient); background-size: 200% auto;
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            text-shadow: 0 4px 20px rgba(230, 165, 25, 0.2);
+            animation: goldShine 8s linear infinite;
         }
 
         .reveal-usp {
@@ -504,7 +507,7 @@
                 <div class="avatar-shadow"></div>
             </div>
             
-            <div class="fade-in d-2 flex flex-col items-center mb-4 w-full">
+            <div class="fade-in d-2 flex flex-col items-center mb-0 w-full">
                 <!-- Name fixed, Fluid Typography via clamp(), "made" positioned organically -->
                 <h1 class="text-[clamp(2.5rem,8vw,4.5rem)] font-serif text-white tracking-widest uppercase flex flex-row items-center justify-center gap-2 sm:gap-3 drop-shadow-2xl w-full">
                     <span class="font-medium text-zinc-100">Pavel</span> 
@@ -514,14 +517,10 @@
                         <span class="absolute top-[65%] left-[80%] sm:left-[85%] text-[clamp(1.6rem,4vw,2.8rem)] signature-made transform -rotate-[10deg] pointer-events-none lowercase" style="letter-spacing: normal;">made</span>
                     </span>
                 </h1>
-                
-                <!-- USP Slogan -->
-                <h2 class="text-[9px] sm:text-[11px] font-semibold tracking-[0.2em] sm:tracking-[0.25em] uppercase text-zinc-400 mt-5 sm:mt-6 mb-2 reveal-usp text-center max-w-[280px] sm:max-w-none mx-auto leading-relaxed">
-                    ФИТНЕС-ИНЖЕНЕРИЯ <span class="text-gold-base mx-1 sm:mx-1.5 opacity-60 inline-block">•</span> БИОХАКИНГ ПИТАНИЯ <span class="text-gold-base mx-1 sm:mx-1.5 opacity-60 inline-block">•</span> ЭЛИТНОЕ МЕНТОРСТВО
-                </h2>
             </div>
             
-            <div class="fade-in d-3 mt-8 flex flex-col items-center w-full">
+            <!-- Сокращен отступ с mt-8 на mt-4 после удаления слогана -->
+            <div class="fade-in d-3 mt-4 flex flex-col items-center w-full">
                 <div class="inline-flex flex-col sm:flex-row items-center gap-2 sm:gap-4 px-6 sm:px-8 py-3 rounded-full border border-white/10 bg-white/[0.05] backdrop-blur-md shadow-lg">
                     <span class="text-[11px] sm:text-[13px] font-semibold tracking-[0.2em] uppercase text-zinc-200">ФИТНЕС</span>
                     <span class="text-gold-base text-[10px] hidden sm:block pulse-diamond"><i class="fa-solid fa-gem" aria-hidden="true"></i></span>
